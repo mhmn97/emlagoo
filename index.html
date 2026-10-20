@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#4f46e5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="امل‌گو">
+<title>امل‌گو</title>
+<style>
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --radius: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a; --card: #1e293b; --text: #f1f5f9;
+    --muted: #94a3b8; --border: #334155;
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  background: var(--bg); color: var(--text);
+  font-family: "Vazirmatn", "IRANSans", "Tahoma", system-ui, sans-serif;
+  overflow: hidden;
+}
+.container { height: 100vh; overflow: hidden; }
+.screen {
+  display: none;
+  height: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 24px;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.screen.active { display: flex; }
+.hidden { display: none !important; }
+
+header { text-align: center; margin-bottom: 20px; flex-shrink: 0; }
+header h1 { margin: 8px 0; font-size: 28px; }
+header h2 { margin: 8px 0; font-size: 20px; }
+.sub { color: var(--muted); font-size: 14px; margin: 4px 0; line-height: 1.7; }
+.hint { color: var(--muted); font-size: 12px; margin-top: 16px; line-height: 1.9; text-align: right; }
+.error { color: var(--danger); font-weight: 700; margin: 16px 0 8px; }
+code {
+  background: var(--border); padding: 2px 6px; border-radius: 4px;
+  font-family: monospace; font-size: 12px; direction: ltr; display: inline-block;
+}
+
+/* lessons */
+.lesson-list { display: flex; flex-direction: column; gap: 12px; flex: 1; overflow-y: auto; }
+.lesson-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 20px; background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 17px; font-weight: 600; color: var(--text);
+  cursor: pointer; font-family: inherit; text-align: right;
+  transition: transform .1s, border-color .2s;
+}
+.lesson-item:active { transform: scale(.98); }
+.lesson-item:hover { border-color: var(--primary); }
+.lesson-item .count { font-size: 13px; color: var(--muted); font-weight: 400; }
+
+/* topbar */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-shrink: 0;
+}
+.icon-btn {
+  background: var(--card); border: 1px solid var(--border);
+  width: 44px; height: 44px; border-radius: 50%;
+  font-size: 20px; cursor: pointer; color: var(--text);
+  display: grid; place-items: center;
+}
+.progress { font-size: 13px; color: var(--muted); }
+
+/* player */
+.player {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 20px;
+}
+.badge {
+  background: var(--primary); color: white;
+  padding: 8px 20px; border-radius: 999px;
+  font-size: 15px; font-weight: 600;
+}
+.play-btn {
+  width: 130px; height: 130px; border-radius: 50%;
+  background: var(--primary); color: white; border: none;
+  cursor: pointer; display: grid; place-items: center;
+  box-shadow: 0 12px 32px rgba(79, 70, 229, .35);
+  transition: transform .15s, box-shadow .15s;
+}
+.play-btn:active { transform: scale(.95); }
+.play-btn.playing { animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 12px 32px rgba(79, 70, 229, .35); }
+  50%      { box-shadow: 0 12px 48px rgba(79, 70, 229, .6); }
+}
+.play-btn svg { width: 56px; height: 56px; fill: white; }
+
+/* speed control */
+.speed-section { width: 100%; max-width: 420px; }
+.speed-label {
+  font-size: 12px; color: var(--muted); text-align: center;
+  margin-bottom: 8px; display: block;
+}
+.speed-row {
+  display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
+}
+.speed-chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 54px;
+  transition: transform .1s, background .15s, border-color .15s, color .15s;
+}
+.speed-chip.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+.speed-chip:active { transform: scale(0.93); }
+
+/* controls */
+.controls {
+  display: flex; flex-direction: column; gap: 12px; margin-top: 20px; flex-shrink: 0;
+}
+.primary-btn, .secondary-btn {
+  padding: 16px; border-radius: var(--radius);
+  font-size: 17px; font-weight: 700;
+  border: none; cursor: pointer; font-family: inherit;
+  transition: transform .1s;
+}
+.primary-btn { background: var(--primary); color: white; }
+.primary-btn:active { transform: scale(.98); }
+.secondary-btn {
+  background: var(--card); color: var(--text);
+  border: 1px solid var(--border);
+}
+.link-btn {
+  background: none; border: none; color: var(--primary);
+  font-size: 14px; cursor: pointer; padding: 12px;
+  font-family: inherit; margin-top: 16px;
+}
+
+/* result */
+.result-list {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 24px 16px 40px;
+  margin: 0; flex: 1; overflow-y: auto; font-size: 17px; line-height: 2;
+}
+.result-list li { padding: 8px 0; border-bottom: 1px solid var(--border); }
+.result-list li:last-child { border-bottom: none; }
+
+/* load screen */
+#file-input {
+  display: block; margin: 16px 0;
+  padding: 12px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: var(--card);
+  color: var(--text); font-family: inherit; width: 100%;
+}
+.server-note {
+  background: var(--card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-top: 16px;
+  font-size: 13px;
+  line-height: 1.9;
+  text-align: right;
+}
+.server-note strong { color: var(--primary); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Load screen -->
+  <section id="screen-load" class="screen active">
+    <header>
+      <h1>📚 امل‌گو</h1>
+      <p class="sub">در حال بارگذاری درس‌ها...</p>
+    </header>
+    <div id="load-error" class="hidden">
+      <p class="error">⚠️ درس‌ها خودکار بارگذاری نشدند</p>
+
+      <div class="server-note">
+        <strong>چرا؟</strong> مرورگرها در حالت <code>file://</code>
+        (دوبار کلیک) اجازهٔ خواندن خودکار فایل را نمی‌دهند.<br><br>
+        <strong>راه‌حل ۱ (توصیه‌شده):</strong> در پوشهٔ همین فایل، ترمینال باز کنید:<br>
+        <code>python -m http.server 8000</code><br>
+        سپس آدرس <code>http://localhost:8000/amlagoo.html</code> را باز کنید.
+        خودکار کار می‌کند.<br><br>
+        <strong>راه‌حل ۲:</strong> فایل JSON را دستی انتخاب کنید:
+      </div>
+
+      <input type="file" id="file-input" accept=".json,.txt">
+    </div>
+  </section>
+
+  <!-- Lessons -->
+  <section id="screen-lessons" class="screen">
+    <header>
+      <h1>📚 امل‌گو</h1>
+      <p class="sub">یک درس انتخاب کن و دیکته بنویس</p>
+    </header>
+    <div id="lesson-list" class="lesson-list"></div>
+    <button id="btn-reload" class="link-btn">بارگذاری JSON دیگر</button>
+  </section>
+
+  <!-- Dictation -->
+  <section id="screen-dictation" class="screen">
+    <header class="topbar">
+      <button id="btn-back" class="icon-btn" aria-label="بازگشت">→</button>
+      <h2 id="lesson-name"></h2>
+      <span id="progress" class="progress"></span>
+    </header>
+    <div class="player">
+      <div class="badge">جمله <span id="sentence-num">۱</span></div>
+      <button id="btn-play" class="play-btn" aria-label="پخش">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <p id="play-status" class="sub"></p>
+
+      <div class="speed-section">
+        <span class="speed-label">سرعت پخش</span>
+        <div class="speed-row" id="speed-row">
+          <button class="speed-chip" data-speed="0.5">۰.۵×</button>
+          <button class="speed-chip" data-speed="0.75">۰.۷۵×</button>
+          <button class="speed-chip active" data-speed="1">۱×</button>
+          <button class="speed-chip" data-speed="1.25">۱.۲۵×</button>
+          <button class="speed-chip" data-speed="1.5">۱.۵×</button>
+          <button class="speed-chip" data-speed="2">۲×</button>
+        </div>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="btn-next" class="primary-btn">جمله بعدی ⏭</button>
+      <button id="btn-finish" class="secondary-btn">تمام شد ✓</button>
+    </div>
+  </section>
+
+  <!-- Result -->
+  <section id="screen-result" class="screen">
+    <header>
+      <h2>✅ دیکته تمام شد</h2>
+      <p class="sub">جملات را با نوشته‌ات مقایسه کن</p>
+    </header>
+    <ol id="result-list" class="result-list"></ol>
+    <div class="controls">
+      <button id="btn-again" class="primary-btn">دیکته دوباره</button>
+      <button id="btn-new" class="secondary-btn">درس دیگر</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// ============================================================
+// در صورت تمایل، درس‌ها را مستقیم اینجا بگذارید:
+// const EMBEDDED_LESSONS = { "درس1": {...} };
+// وگرنه خالی بگذارید؛ از lessons.json یا انتخاب دستی خوانده می‌شود.
+// ============================================================
+const EMBEDDED_LESSONS = {};
+
+// ============================================================
+// STATE
+// ============================================================
+const state = {
+  lessons: {},
+  lesson: null,
+  chosen: [],
+  current: null,
+  audio: null,
+  speed: 1,
+};
+
+// ============================================================
+// UTILS
+// ============================================================
+const toFaNum = (n) => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+
+const toFaSpeed = (s) => {
+  // 0.5 -> ۰.۵   1 -> ۱   1.25 -> ۱.۲۵
+  return String(s).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]).replace('.', '٫');
+};
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
+}
+
+function isLessonDict(v) {
+  return v && typeof v === 'object' && !Array.isArray(v) &&
+         Object.keys(v).length > 0 &&
+         Object.values(v).every(x => typeof x === 'string');
+}
+
+/**
+ * پارسر مقاوم: BOM و ویرگول اضافه را تحمل می‌کند
+ */
+function parseLessonsText(text) {
+  if (!text) return null;
+  if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    return JSON.parse(text.replace(/,\s*([}\]])/g, '$1'));
+  }
+}
+
+function parseLessonsJson(data, fileStem = '') {
+  const lessons = {};
+  if (!data || typeof data !== 'object') return lessons;
+
+  // حالت A: یک درس، آبجکت ساده {sentence: path}
+  if (isLessonDict(data)) {
+    lessons[fileStem || 'درس'] = data;
+    return lessons;
+  }
+
+  // حالت B: چند درس {lessonName: {sentence: path}}
+  const vals = Object.values(data);
+  if (vals.length > 0 && vals.every(isLessonDict)) {
+    for (const [k, v] of Object.entries(data)) lessons[k] = v;
+    return lessons;
+  }
+
+  return lessons;
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ============================================================
+// SPEED CONTROL
+// ============================================================
+function setSpeed(speed, persist = true) {
+  state.speed = speed;
+  document.querySelectorAll('.speed-chip').forEach(chip => {
+    const chipSpeed = parseFloat(chip.dataset.speed);
+    chip.classList.toggle('active', Math.abs(chipSpeed - speed) < 0.001);
+  });
+  if (state.audio) {
+    try { state.audio.playbackRate = speed; } catch (e) {}
+  }
+  if (persist) {
+    try { localStorage.setItem('amlagoo-speed', String(speed)); } catch (e) {}
+  }
+}
+
+function restoreSpeed() {
+  let saved = 1;
+  try {
+    const raw = localStorage.getItem('amlagoo-speed');
+    if (raw !== null) {
+      const v = parseFloat(raw);
+      if (Number.isFinite(v) && v >= 0.25 && v <= 4) saved = v;
+    }
+  } catch (e) {}
+  setSpeed(saved, false);
+}
+
+// ============================================================
+// LOAD LESSONS
+// ============================================================
+async function autoLoadLessons() {
+  if (Object.keys(EMBEDDED_LESSONS).length > 0) {
+    state.lessons = EMBEDDED_LESSONS;
+    return true;
+  }
+
+  const tryPaths = [
+    './lessons.json',
+    './data/jsons/sevom/lessons.json',
+  ];
+  for (const path of tryPaths) {
+    try {
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) continue;
+      const text = await res.text();
+      let data;
+      try {
+        data = parseLessonsText(text);
+      } catch (e) {
+        console.warn('JSON parse failed for', path, e);
+        continue;
+      }
+      const parsed = parseLessonsJson(data, 'lessons');
+      if (Object.keys(parsed).length > 0) {
+        state.lessons = parsed;
+        return true;
+      }
+    } catch (e) {
+      // در file:// اینجا می‌افتد — غیرقابل‌رفع از سمت کد
+      console.warn('fetch failed for', path, e);
+    }
+  }
+  return false;
+}
+
+function loadFromFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = parseLessonsText(reader.result);
+        const stem = file.name.replace(/\.(json|txt)$/i, '');
+        const parsed = parseLessonsJson(data, stem);
+        if (Object.keys(parsed).length === 0) {
+          reject(new Error('فرمت فایل نامشخص است'));
+          return;
+        }
+        resolve(parsed);
+      } catch (e) {
+        reject(e);
+      }
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsText(file, 'utf-8');
+  });
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderLessons() {
+  const list = document.getElementById('lesson-list');
+  list.innerHTML = '';
+  const names = Object.keys(state.lessons);
+  if (names.length === 0) {
+    list.innerHTML = '<p class="sub">هیچ درسی پیدا نشد.</p>';
+    return;
+  }
+  names.forEach(name => {
+    const count = Object.keys(state.lessons[name]).length;
+    const btn = document.createElement('button');
+    btn.className = 'lesson-item';
+    btn.innerHTML = `<span>${escapeHtml(name)}</span><span class="count">${toFaNum(count)} جمله</span>`;
+    btn.onclick = () => startLesson(name);
+    list.appendChild(btn);
+  });
+}
+
+function createAudio(url) {
+  const a = new Audio(encodeURI(url));
+  a.playbackRate = state.speed;
+  a.addEventListener('loadedmetadata', () => {
+    // برخی مرورگرها rate را روی لود ریست می‌کنند
+    try { a.playbackRate = state.speed; } catch (e) {}
+  });
+  return a;
+}
+
+function renderCurrent() {
+  const c = state.current;
+  document.getElementById('lesson-name').textContent = state.lesson;
+  document.getElementById('sentence-num').textContent = toFaNum(c.index);
+  document.getElementById('progress').textContent = `${toFaNum(c.index)} / ${toFaNum(c.total)}`;
+  document.getElementById('play-status').textContent = '';
+
+  if (state.audio) state.audio.pause();
+  state.audio = null;
+
+  if (!c.audio_url) {
+    document.getElementById('play-status').textContent = '⚠️ این جمله مسیر صوتی ندارد';
+    return;
+  }
+
+  state.audio = createAudio(c.audio_url);
+
+  state.audio.addEventListener('play', () => {
+    document.getElementById('btn-play').classList.add('playing');
+  });
+  state.audio.addEventListener('pause', () => {
+    document.getElementById('btn-play').classList.remove('playing');
+  });
+  state.audio.addEventListener('ended', () => {
+    document.getElementById('btn-play').classList.remove('playing');
+  });
+  state.audio.addEventListener('error', () => {
+    document.getElementById('play-status').textContent =
+      '⚠️ فایل صوتی یافت نشد: ' + c.audio_url;
+  });
+
+  state.audio.play().catch(() => {
+    document.getElementById('play-status').textContent =
+      'روی دکمهٔ پخش بزنید ▶';
+  });
+}
+
+// ============================================================
+// LOGIC
+// ============================================================
+function startLesson(name) {
+  state.lesson = name;
+  state.chosen = [];
+  const mapping = state.lessons[name];
+  if (!mapping || Object.keys(mapping).length === 0) {
+    alert('این درس خالی است.');
+    return;
+  }
+  show('screen-dictation');
+  nextSentence();
+}
+
+function pickNext() {
+  const mapping = state.lessons[state.lesson] || {};
+  const used = new Set(state.chosen.map(c => c.sentence));
+  const remaining = Object.keys(mapping).filter(k => !used.has(k));
+  if (remaining.length === 0) return null;
+  const sentence = remaining[Math.floor(Math.random() * remaining.length)];
+  const path = mapping[sentence];
+  state.chosen.push({ sentence, path });
+  return {
+    sentence,
+    audio_url: path,
+    index: state.chosen.length,
+    total: Object.keys(mapping).length,
+  };
+}
+
+function nextSentence() {
+  const nxt = pickNext();
+  if (!nxt) { finishNow(); return; }
+  state.current = nxt;
+  renderCurrent();
+}
+
+function finishNow() {
+  if (state.audio) { state.audio.pause(); state.audio = null; }
+  show('screen-result');
+  const list = document.getElementById('result-list');
+  list.innerHTML = '';
+  if (state.chosen.length === 0) {
+    list.innerHTML = '<li class="sub">هیچ جمله‌ای پخش نشد.</li>';
+    return;
+  }
+  state.chosen.forEach(c => {
+    const li = document.createElement('li');
+    li.textContent = c.sentence;
+    list.appendChild(li);
+  });
+}
+
+function goBack() {
+  if (state.audio) { state.audio.pause(); state.audio = null; }
+  state.lesson = null;
+  state.chosen = [];
+  state.current = null;
+  show('screen-lessons');
+}
+
+function playCurrent() {
+  if (!state.audio && state.current && state.current.audio_url) {
+    state.audio = createAudio(state.current.audio_url);
+  }
+  if (!state.audio) return;
+  try {
+    state.audio.currentTime = 0;
+    state.audio.playbackRate = state.speed;
+    state.audio.play().catch(e => {
+      document.getElementById('play-status').textContent = '⚠️ ' + (e.message || 'پخش نشد');
+    });
+  } catch (e) {
+    document.getElementById('play-status').textContent = '⚠️ ' + e.message;
+  }
+}
+
+// ============================================================
+// EVENTS
+// ============================================================
+document.getElementById('btn-play').addEventListener('click', playCurrent);
+document.getElementById('btn-next').addEventListener('click', nextSentence);
+document.getElementById('btn-finish').addEventListener('click', finishNow);
+document.getElementById('btn-back').addEventListener('click', goBack);
+document.getElementById('btn-new').addEventListener('click', goBack);
+document.getElementById('btn-again').addEventListener('click', () => startLesson(state.lesson));
+document.getElementById('btn-reload').addEventListener('click', () => {
+  document.getElementById('file-input').click();
+});
+
+document.getElementById('speed-row').addEventListener('click', (e) => {
+  const chip = e.target.closest('.speed-chip');
+  if (!chip) return;
+  setSpeed(parseFloat(chip.dataset.speed));
+});
+
+document.getElementById('file-input').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const parsed = await loadFromFile(file);
+    state.lessons = parsed;
+    renderLessons();
+    show('screen-lessons');
+  } catch (err) {
+    alert('خطا در بارگذاری فایل: ' + err.message);
+  }
+});
+
+// ============================================================
+// INIT
+// ============================================================
+(async function init() {
+  restoreSpeed();
+  const ok = await autoLoadLessons();
+  if (ok && Object.keys(state.lessons).length > 0) {
+    renderLessons();
+    show('screen-lessons');
+  } else {
+    document.getElementById('load-error').classList.remove('hidden');
+  }
+})();
+</script>
+</body>
+</html>
