@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#6366f1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="املا‌گو">
+<meta name="apple-mobile-web-app-title" content="املاگو">
 <title>املاگو</title>
 <style>
 :root {
@@ -55,13 +55,15 @@ html, body {
   position: relative;
 }
 
-/* ---------- BACKGROUND IMAGE (blurred) ---------- */
+/* ---------- BACKGROUND IMAGE (dynamic, blurred) ---------- */
 .app-bg {
   position: fixed;
-  inset: -30px;
-  background: url('images/farsi3.png') center/cover no-repeat;
-  filter: blur(40px) saturate(1.2);
-  opacity: 0.22;
+  inset: -20px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(12px);
+  opacity: 0.5;
   z-index: 0;
   pointer-events: none;
 }
@@ -71,8 +73,8 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background:
-    radial-gradient(circle at 10% 0%, rgba(99,102,241,0.12), transparent 40%),
-    radial-gradient(circle at 90% 100%, rgba(236,72,153,0.08), transparent 40%);
+    radial-gradient(circle at 10% 0%, rgba(99,102,241,0.10), transparent 40%),
+    radial-gradient(circle at 90% 100%, rgba(236,72,153,0.06), transparent 40%);
   pointer-events: none;
   z-index: 1;
 }
@@ -117,7 +119,7 @@ body::before {
   height: 100%;
   max-width: 680px;
   margin: 0 auto;
-  padding: 24px 16px 24px;
+  padding: 20px 16px 20px;
   flex-direction: column;
   overflow-y: auto;
 }
@@ -127,7 +129,7 @@ body::before {
 /* ---------- HEADER ---------- */
 .app-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   flex-shrink: 0;
 }
 
@@ -173,32 +175,39 @@ code {
   font-family: monospace; font-size: 12px; direction: ltr; display: inline-block;
 }
 
-/* ---------- LESSON GRID ---------- */
+/* ---------- LESSON GRID (2 per row, scrollable, no scrollbar) ---------- */
 .lesson-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 18px;
   flex: 1;
   overflow-y: auto;
-  padding: 4px 4px 8px;
+  padding: 4px 4px 20px;
   align-content: start;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.lesson-list::-webkit-scrollbar { display: none; }
 
+/* استفاده از ترفند padding-bottom برای نسبت تصویر 3:4 جهت جلوگیری از باگ WebView */
 .lesson-card {
   position: relative;
-  aspect-ratio: 3 / 4;
+  width: 100%;
+  height: 0;
+  padding-bottom: 133.333%;
   border-radius: var(--radius);
   overflow: hidden;
-  border: none;
   cursor: pointer;
   font-family: inherit;
-  padding: 0;
   text-align: right;
   box-shadow: var(--shadow-md);
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.25s;
   animation: cardIn 0.4s ease-out backwards;
   background: #000;
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 @keyframes cardIn {
@@ -271,7 +280,7 @@ code {
 /* ---------- TOPBAR ---------- */
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 20px; flex-shrink: 0;
+  margin-bottom: 16px; flex-shrink: 0;
   gap: 12px;
 }
 
@@ -330,13 +339,27 @@ code {
   margin-top: 4px;
 }
 
-/* ---------- PLAYER ---------- */
+/* ---------- PLAYER (glass card) ---------- */
 .player {
   flex: 1;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 24px;
-  padding: 16px 0;
+  gap: 22px;
+  padding: 24px 16px;
+  margin: 8px 0;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px) saturate(1.1);
+  -webkit-backdrop-filter: blur(24px) saturate(1.1);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: var(--shadow-md);
+}
+
+@media (prefers-color-scheme: dark) {
+  .player {
+    background: rgba(30, 41, 59, 0.55);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
 }
 
 .sentence-badge {
@@ -361,17 +384,22 @@ code {
 }
 
 .nav-btn {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   background: var(--card);
   border: 1px solid var(--border);
   color: var(--text);
   cursor: pointer;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
   box-shadow: var(--shadow-sm);
   transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s, color 0.15s;
+  padding: 0;
+  font-family: inherit;
 }
 
 .nav-btn:not(:disabled):hover {
@@ -389,13 +417,21 @@ code {
 }
 
 .nav-btn svg {
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   fill: currentColor;
 }
 
+.nav-btn .nav-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: currentColor;
+  line-height: 1;
+  margin-top: 2px;
+}
+
 .play-btn {
-  width: 148px; height: 148px;
+  width: 132px; height: 132px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
   color: white;
@@ -435,7 +471,7 @@ code {
 .play-btn:active { transform: scale(0.94); }
 
 .play-btn svg {
-  width: 62px; height: 62px;
+  width: 56px; height: 56px;
   fill: white;
 }
 .play-btn svg.play-icon { margin-right: -6px; }
@@ -500,7 +536,7 @@ code {
 /* ---------- CONTROLS ---------- */
 .controls {
   display: flex; flex-direction: column; gap: 10px;
-  margin-top: 20px; flex-shrink: 0;
+  margin-top: 16px; flex-shrink: 0;
 }
 
 .primary-btn, .secondary-btn {
@@ -580,7 +616,9 @@ code {
   box-shadow: var(--shadow-sm);
   counter-reset: result-counter;
   list-style: none;
+  scrollbar-width: none;
 }
+.result-list::-webkit-scrollbar { display: none; }
 
 .result-list li {
   padding: 14px 0;
@@ -651,7 +689,7 @@ code {
 </head>
 <body>
 
-<!-- Blurred background -->
+<!-- Dynamic blurred background -->
 <div class="app-bg"></div>
 
 <!-- Splash screen -->
@@ -665,7 +703,7 @@ code {
   <section id="screen-load" class="screen active">
     <div class="app-header">
       <div class="app-logo">📚</div>
-      <h1 class="app-title">املا‌گو</h1>
+      <h1 class="app-title">املاگو</h1>
       <p class="app-sub" id="load-sub">در حال بارگذاری درس‌ها...</p>
     </div>
     <div id="load-error" class="hidden">
@@ -717,16 +755,20 @@ code {
       </div>
 
       <div class="play-controls">
-        <button id="btn-prev" class="nav-btn" aria-label="جمله قبلی" disabled>
+        <!-- دکمهٔ بعدی — سمت راست در RTL — فلش به سمت راست -->
+        <button id="btn-next" class="nav-btn" aria-label="جمله بعدی">
           <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+          <span class="nav-label">بعدی</span>
         </button>
 
         <button id="btn-play" class="play-btn" aria-label="پخش">
           <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </button>
 
-        <button id="btn-next" class="nav-btn" aria-label="جمله بعدی">
+        <!-- دکمهٔ قبلی — سمت چپ در RTL — فلش به سمت چپ -->
+        <button id="btn-prev" class="nav-btn" aria-label="جمله قبلی" disabled>
           <svg viewBox="0 0 24 24"><path d="M18 6l-8.5 6 8.5 6V6zM6 6v12h2V6H6z"/></svg>
+          <span class="nav-label">قبلی</span>
         </button>
       </div>
 
@@ -763,23 +805,24 @@ code {
 
 <script>
 // ============================================================
-// اگر می‌خواهید درس‌ها را مستقیم در فایل بگذارید:
-// const EMBEDDED_LESSONS = { "درس1": {...} };
+// CONFIG — قابل تغییر
 // ============================================================
+const SPLASH_DURATION_MS = 3000;
+const DEFAULT_SPEED = 0.75;
+const LESSONS_BG = 'images/farsi3.png';
+const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'webp'];
+
 const EMBEDDED_LESSONS = {};
 
 // ============================================================
 // STATE
 // ============================================================
-const DEFAULT_SPEED = 0.75;
-const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'webp'];
-
 const state = {
   lessons: {},
   lesson: null,
-  chosen: [],          // history: [{sentence, path}, ...]
-  currentIndex: -1,    // index in chosen
-  current: null,       // {sentence, audio_url, index, total}
+  chosen: [],
+  currentIndex: -1,
+  current: null,
   audio: null,
   speed: DEFAULT_SPEED,
 };
@@ -828,6 +871,34 @@ function parseLessonsJson(data, fileStem = '') {
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+}
+
+// ============================================================
+// BACKGROUND MANAGER
+// ============================================================
+function setAppBg(url) {
+  const bg = document.querySelector('.app-bg');
+  if (!url) {
+    bg.style.backgroundImage = 'none';
+    return;
+  }
+  bg.style.backgroundImage = `url('${url.replace(/'/g, "\\'")}')`;
+}
+
+function trySetLessonBg(name) {
+  let idx = 0;
+  const tryNext = () => {
+    if (idx >= IMAGE_EXTS.length) {
+      setAppBg(LESSONS_BG);
+      return;
+    }
+    const url = buildLessonImageUrl(name, IMAGE_EXTS[idx]);
+    const probe = new Image();
+    probe.onload = () => setAppBg(url);
+    probe.onerror = () => { idx++; tryNext(); };
+    probe.src = url;
+  };
+  tryNext();
 }
 
 // ============================================================
@@ -974,8 +1045,11 @@ function renderLessons() {
   names.forEach((name, i) => {
     const count = Object.keys(state.lessons[name]).length;
 
-    const card = document.createElement('button');
+    // استفاده از div به جای button برای جلوگیری از باگ‌های layout در WebView
+    const card = document.createElement('div');
     card.className = 'lesson-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
     card.style.animationDelay = (i * 60) + 'ms';
     card.setAttribute('aria-label', name);
 
@@ -991,6 +1065,12 @@ function renderLessons() {
 
     attachLessonImage(card, name);
     card.onclick = () => startLesson(name);
+    card.onkeydown = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        startLesson(name);
+      }
+    };
     list.appendChild(card);
   });
 }
@@ -1012,12 +1092,10 @@ function renderCurrent() {
   document.getElementById('progress').textContent =
     `جمله ${toFaNum(c.index)} از ${toFaNum(c.total)}`;
 
-  // progress bar = picked count / total
   const total = Object.keys(state.lessons[state.lesson]).length;
   const pickedPct = (state.chosen.length / total) * 100;
   document.getElementById('progress-fill').style.width = pickedPct + '%';
 
-  // prev button state
   document.getElementById('btn-prev').disabled = (state.currentIndex <= 0);
 
   document.getElementById('play-status').textContent = '';
@@ -1070,7 +1148,8 @@ function startLesson(name) {
     return;
   }
   show('screen-dictation');
-  goNext();  // pick first sentence
+  trySetLessonBg(name);
+  goNext();
 }
 
 function pickNext() {
@@ -1090,14 +1169,12 @@ function pickNext() {
 }
 
 function goNext() {
-  // اگر در تاریخچه جلوتر می‌رویم
   if (state.currentIndex < state.chosen.length - 1) {
     state.currentIndex++;
     state.current = makeCurrentFromIndex(state.currentIndex);
     renderCurrent();
     return;
   }
-  // در غیر اینصورت جملهٔ جدید انتخاب کن
   const nxt = pickNext();
   if (!nxt) { finishNow(); return; }
   state.currentIndex = state.chosen.length - 1;
@@ -1135,6 +1212,7 @@ function goBack() {
   state.chosen = [];
   state.currentIndex = -1;
   state.current = null;
+  setAppBg(LESSONS_BG);
   show('screen-lessons');
 }
 
@@ -1186,6 +1264,7 @@ document.getElementById('file-input').addEventListener('change', async (e) => {
     const parsed = await loadFromFile(file);
     state.lessons = parsed;
     renderLessons();
+    setAppBg(LESSONS_BG);
     show('screen-lessons');
   } catch (err) {
     alert('خطا در بارگذاری فایل: ' + err.message);
@@ -1196,19 +1275,17 @@ document.getElementById('file-input').addEventListener('change', async (e) => {
 // INIT
 // ============================================================
 (async function init() {
+  setAppBg(LESSONS_BG);
   restoreSpeed();
 
   const startTime = Date.now();
   const ok = await autoLoadLessons();
 
-  // حداقل 1.2 ثانیه اسپلش نمایش داده شود
-  const minSplash = 1200;
   const elapsed = Date.now() - startTime;
-  if (elapsed < minSplash) {
-    await new Promise(r => setTimeout(r, minSplash - elapsed));
+  if (elapsed < SPLASH_DURATION_MS) {
+    await new Promise(r => setTimeout(r, SPLASH_DURATION_MS - elapsed));
   }
 
-  // محو کردن اسپلش
   const splash = document.getElementById('splash');
   splash.classList.add('fade-out');
   setTimeout(() => { splash.style.display = 'none'; }, 500);
