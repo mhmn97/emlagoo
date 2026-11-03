@@ -8,798 +8,411 @@
 <meta name="apple-mobile-web-app-title" content="املاگو">
 <title>املاگو</title>
 
-<!-- وب‌فونت‌های جایگزین (اگر Koodak روی گوشی نصب نباشد) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-/* ════════════════════════════════════════════════════════════════════
-   🎈 KID-FRIENDLY THEME CONFIG — همه چیز را از همین‌جا تغییر بده
-   ════════════════════════════════════════════════════════════════════ */
 :root {
-  /* ── فونت‌ها (Koodak اول، سپس وب‌فونت جایگزین) ── */
   --font-display: 'Koodak', 'B Koodak', 'Lalezar', 'Vazirmatn', Tahoma, sans-serif;
   --font-body:    'Koodak', 'B Koodak', 'Vazirmatn', 'Lalezar', Tahoma, sans-serif;
-
-  /* ── سایز فونت‌ها (بزرگ برای کودکان) ── */
-  --fs-app-title:   40px;
-  --fs-app-sub:     18px;
-  --fs-card-title:  clamp(17px, 4.6vw, 22px);
-  --fs-card-count:  14px;
-  --fs-btn:         22px;
-  --fs-badge:       20px;
-  --fs-progress:    17px;
-  --fs-hint:        16px;
-  --fs-result:      24px;
-  --fs-result-item: 20px;
-  --fs-logo:        46px;
-  --fs-speed:       18px;
-
-  /* ── رنگ‌های شاد و پرانرژی ── */
-  --primary:      #FF5E7E;   /* صورتی-قرمز */
-  --primary-2:    #FF8C42;   /* نارنجی */
-  --primary-3:    #FFD93D;   /* زرد آفتابی */
-  --accent-teal:  #4ECDC4;
-  --accent-purple:#A78BFA;
-
-  --bg:    #FFF8F0;
-  --bg-2:  #FFEEDD;
-  --card:  #FFFFFF;
-  --text:  #3D2C5C;
-  --text-2:#5A4A7A;
-  --muted: #9B8DB5;
-  --border:#FFE4D0;
-  --danger:#FF4757;
-  --success:#2ED573;
-
-  /* ── اندازه‌ها (ریسپانسیو با clamp) ── */
-  --radius:      28px;
-  --radius-sm:   18px;
-  --logo-size:     clamp(72px, 22vw, 92px);
+  --fs-app-title: 40px; --fs-app-sub: 18px;
+  --fs-card-title: clamp(17px, 4.6vw, 22px); --fs-card-count: 14px;
+  --fs-btn: 22px; --fs-badge: 20px; --fs-progress: 17px; --fs-hint: 16px;
+  --fs-result: 24px; --fs-result-item: 20px; --fs-logo: 46px; --fs-speed: 18px;
+  --primary: #FF5E7E; --primary-2: #FF8C42; --primary-3: #FFD93D;
+  --accent-teal: #4ECDC4; --accent-purple: #A78BFA;
+  --bg: #FFF8F0; --bg-2: #FFEEDD; --card: #FFFFFF;
+  --text: #3D2C5C; --text-2: #5A4A7A; --muted: #9B8DB5; --border: #FFE4D0;
+  --danger: #FF4757; --success: #2ED573;
+  --radius: 28px; --radius-sm: 18px;
+  --logo-size: clamp(72px, 22vw, 92px);
   --play-btn-size: clamp(120px, 38vw, 158px);
-  --nav-btn-size:  clamp(64px, 19vw, 82px);
+  --nav-btn-size: clamp(64px, 19vw, 82px);
   --icon-btn-size: clamp(46px, 13vw, 52px);
-  --controls-gap:  clamp(12px, 4vw, 24px);
-
-  /* ── اسپلش: به اندازهٔ صفحهٔ گوشی ── */
-  --splash-img-width:  100vw;
-  --splash-img-height: 100vh;
-  --splash-img-fit:    contain;   /* اگر می‌خواهی کل صفحه را پر کند: cover */
-
-  /* ── سایه‌ها ── */
+  --controls-gap: clamp(12px, 4vw, 24px);
+  --splash-img-width: 100vw; --splash-img-height: 100vh; --splash-img-fit: contain;
   --shadow-sm: 0 2px 6px rgba(61,44,92,0.08);
   --shadow-md: 0 6px 18px rgba(61,44,92,0.12);
   --shadow-lg: 0 16px 40px rgba(61,44,92,0.18);
   --shadow-primary: 0 14px 40px rgba(255,94,126,0.45);
 }
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:    #1A1425;
-    --bg-2:  #2A1F3D;
-    --card:  #2D2340;
-    --text:  #FFF5EA;
-    --text-2:#E0D5F0;
-    --muted: #A895C5;
-    --border:#4A3A5C;
+    --bg: #1A1425; --bg-2: #2A1F3D; --card: #2D2340;
+    --text: #FFF5EA; --text-2: #E0D5F0; --muted: #A895C5; --border: #4A3A5C;
     --shadow-md: 0 6px 18px rgba(0,0,0,0.35);
     --shadow-lg: 0 16px 40px rgba(0,0,0,0.45);
   }
 }
-/* ════════════════════════════════════════════════════════════════════ */
-
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-/* ── مخفی‌کردن کامل اسکرول‌بار در همه‌جا ── */
-* {
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE / Edge قدیمی */
-}
-*::-webkit-scrollbar {
-  width: 0 !important;
-  height: 0 !important;
-  display: none !important;       /* Chrome / Safari / WebView */
-}
-
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none !important; }
 html, body {
   margin: 0; padding: 0; height: 100%;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 18px;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  position: relative;
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-body); font-size: 18px;
+  overflow: hidden; -webkit-font-smoothing: antialiased; position: relative;
 }
-
-/* ---------- BACKGROUND IMAGE (dynamic, blurred) ---------- */
 .app-bg {
-  position: fixed;
-  inset: -20px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  filter: blur(14px) saturate(1.15);
-  opacity: 0.55;
-  z-index: 0;
-  pointer-events: none;
+  position: fixed; inset: -20px; background-position: center;
+  background-size: cover; background-repeat: no-repeat;
+  filter: blur(14px) saturate(1.15); opacity: 0.55;
+  z-index: 0; pointer-events: none;
 }
-
 body::before {
-  content: '';
-  position: fixed; inset: 0;
+  content: ''; position: fixed; inset: 0;
   background:
-    radial-gradient(circle at 10% 0%,  rgba(255,94,126,0.16),  transparent 45%),
+    radial-gradient(circle at 10% 0%, rgba(255,94,126,0.16), transparent 45%),
     radial-gradient(circle at 90% 100%, rgba(255,140,66,0.14), transparent 45%),
-    radial-gradient(circle at 50% 50%,  rgba(255,217,61,0.08),  transparent 60%);
-  pointer-events: none;
-  z-index: 1;
+    radial-gradient(circle at 50% 50%, rgba(255,217,61,0.08), transparent 60%);
+  pointer-events: none; z-index: 1;
 }
-
 .container { height: 100vh; overflow: hidden; position: relative; z-index: 2; }
-
-/* ---------- SPLASH ---------- */
 .splash {
-  position: fixed; inset: 0;
-  display: grid;
-  place-items: center;
-  z-index: 1000;
+  position: fixed; inset: 0; display: grid; place-items: center; z-index: 1000;
   background: linear-gradient(135deg, #FFF0E0 0%, #FFF8F0 50%, #FFE4E0 100%);
-  transition: opacity 0.5s ease;
-  overflow: hidden;
+  transition: opacity 0.5s ease; overflow: hidden;
 }
-
-@media (prefers-color-scheme: dark) {
-  .splash { background: linear-gradient(135deg, #2A1F3D 0%, #1A1425 100%); }
-}
-
-.splash.fade-out {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* تصویر اسپلش به اندازهٔ کل صفحهٔ گوشی */
+@media (prefers-color-scheme: dark) { .splash { background: linear-gradient(135deg, #2A1F3D 0%, #1A1425 100%); } }
+.splash.fade-out { opacity: 0; pointer-events: none; }
 .splash img {
-  width: var(--splash-img-width);
-  height: var(--splash-img-height);
-  max-width: none;
-  max-height: none;
-  object-fit: var(--splash-img-fit);
+  width: var(--splash-img-width); height: var(--splash-img-height);
+  max-width: none; max-height: none; object-fit: var(--splash-img-fit);
   animation: splashIn 1s cubic-bezier(0.34, 1.56, 0.64, 1);
   filter: drop-shadow(0 24px 60px rgba(255,94,126,0.35));
 }
-
-@keyframes splashIn {
-  from { opacity: 0; transform: scale(0.75); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-/* ---------- SCREENS ---------- */
+@keyframes splashIn { from { opacity: 0; transform: scale(0.75); } to { opacity: 1; transform: scale(1); } }
 .screen {
-  display: none;
-  height: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 20px 16px 20px;
-  flex-direction: column;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  display: none; height: 100%; max-width: 720px; margin: 0 auto;
+  padding: 20px 16px 20px; flex-direction: column;
+  overflow-y: auto; overscroll-behavior: contain;
 }
 .screen.active { display: flex; }
 .hidden { display: none !important; }
-
-/* ---------- HEADER ---------- */
-.app-header {
-  text-align: center;
-  margin-bottom: 18px;
-  flex-shrink: 0;
-}
-
+.app-header { text-align: center; margin-bottom: 18px; flex-shrink: 0; }
 .app-logo {
-  width: var(--logo-size);
-  height: var(--logo-size);
-  margin: 0 auto 12px;
+  width: var(--logo-size); height: var(--logo-size); margin: 0 auto 12px;
   border-radius: 30px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 55%, var(--primary-3) 100%);
-  display: grid; place-items: center;
-  font-size: var(--fs-logo);
+  display: grid; place-items: center; font-size: var(--fs-logo);
   box-shadow: var(--shadow-primary);
-  animation: floatIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
-             gentleBounce 3.2s ease-in-out 0.8s infinite;
+  animation: floatIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), gentleBounce 3.2s ease-in-out 0.8s infinite;
 }
-
-@keyframes floatIn {
-  from { opacity: 0; transform: translateY(-14px) scale(0.85); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes gentleBounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
-}
-
+@keyframes floatIn { from { opacity: 0; transform: translateY(-14px) scale(0.85); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes gentleBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 .app-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--fs-app-title);
-  font-weight: 900;
+  margin: 0; font-family: var(--font-display); font-size: var(--fs-app-title); font-weight: 900;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 55%, var(--primary-3) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  letter-spacing: -0.5px; line-height: 1.2;
 }
-
-.app-sub {
-  color: var(--muted);
-  font-size: var(--fs-app-sub);
-  margin: 8px 0 0;
-  font-weight: 700;
-}
-
+.app-sub { color: var(--muted); font-size: var(--fs-app-sub); margin: 8px 0 0; font-weight: 700; }
 .sub { color: var(--muted); font-size: 15px; margin: 4px 0; line-height: 1.8; }
 .error { color: var(--danger); font-weight: 800; margin: 16px 0 8px; text-align: center; font-size: 18px; }
-
-code {
-  background: var(--border); padding: 3px 8px; border-radius: 8px;
-  font-family: monospace; font-size: 13px; direction: ltr; display: inline-block;
-}
-
-/* ---------- LESSON GRID ---------- */
+code { background: var(--border); padding: 3px 8px; border-radius: 8px; font-family: monospace; font-size: 13px; direction: ltr; display: inline-block; }
 .lesson-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  flex: 1;
-  overflow-y: auto;
-  padding: 4px 4px 20px;
-  align-content: start;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
+  flex: 1; overflow-y: auto; padding: 4px 4px 20px; align-content: start;
 }
-.lesson-list::-webkit-scrollbar { display: none; }
-
 .lesson-card {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 133.333%;
-  border-radius: var(--radius);
-  overflow: hidden;
-  cursor: pointer;
-  font-family: inherit;
-  text-align: right;
-  box-shadow: var(--shadow-md);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.25s;
+  position: relative; width: 100%; height: 0; padding-bottom: 133.333%;
+  border-radius: var(--radius); overflow: hidden; cursor: pointer;
+  font-family: inherit; text-align: right; box-shadow: var(--shadow-md);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
   animation: cardIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
-  background: #000;
-  outline: none;
-  -webkit-user-select: none;
-  user-select: none;
+  background: #000; outline: none; -webkit-user-select: none; user-select: none;
   border: 3px solid rgba(255,255,255,0.25);
 }
-
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(18px) scale(0.94); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.lesson-card:hover {
-  transform: translateY(-6px) rotate(-0.6deg);
-  box-shadow: var(--shadow-lg);
-}
-.lesson-card:active {
-  transform: translateY(-1px) scale(0.97);
-}
-
+@keyframes cardIn { from { opacity: 0; transform: translateY(18px) scale(0.94); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.lesson-card:hover { transform: translateY(-6px) rotate(-0.6deg); box-shadow: var(--shadow-lg); }
+.lesson-card:active { transform: translateY(-1px) scale(0.97); }
 .lesson-fallback-bg { position: absolute; inset: 0; }
-
-.lesson-bg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
+.lesson-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
 .lesson-card:hover .lesson-bg { transform: scale(1.08); }
-
-.lesson-overlay {
-  position: absolute; inset: 0;
-  background:
-    linear-gradient(180deg,
-      rgba(0,0,0,0) 25%,
-      rgba(0,0,0,0.35) 60%,
-      rgba(0,0,0,0.92) 100%);
-}
-
+.lesson-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 25%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.92) 100%); }
 .lesson-content {
-  position: absolute;
-  inset: auto 0 0 0;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  color: white;
-  z-index: 1;
+  position: absolute; inset: auto 0 0 0; padding: 16px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+  color: white; z-index: 1;
 }
-
 .lesson-title {
-  font-family: var(--font-display);
-  font-size: var(--fs-card-title);
-  font-weight: 800;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.7);
-  line-height: 1.35;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-family: var(--font-display); font-size: var(--fs-card-title); font-weight: 800;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.7); line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-
 .lesson-count {
-  font-size: var(--fs-card-count);
-  font-weight: 700;
+  font-size: var(--fs-card-count); font-weight: 700;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  padding: 6px 14px;
-  border-radius: 999px;
+  padding: 6px 14px; border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.35);
   box-shadow: 0 4px 12px rgba(255,94,126,0.4);
 }
-
-/* ---------- TOPBAR ---------- */
-.topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 16px; flex-shrink: 0;
-  gap: 12px;
-}
-
+.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-shrink: 0; gap: 12px; }
 .icon-btn {
-  background: var(--card);
-  border: 2px solid var(--border);
-  width: var(--icon-btn-size);
-  height: var(--icon-btn-size);
-  border-radius: 16px;
-  font-size: 22px;
-  cursor: pointer;
-  color: var(--text);
-  display: grid; place-items: center;
-  box-shadow: var(--shadow-sm);
+  background: var(--card); border: 2px solid var(--border);
+  width: var(--icon-btn-size); height: var(--icon-btn-size);
+  border-radius: 16px; font-size: 22px; cursor: pointer; color: var(--text);
+  display: grid; place-items: center; box-shadow: var(--shadow-sm);
   transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
-  flex-shrink: 0;
-  font-weight: 800;
+  flex-shrink: 0; font-weight: 800;
 }
-
 .icon-btn:hover { background: var(--bg-2); }
 .icon-btn:active { transform: scale(0.92); }
-
-.topbar-center {
-  flex: 1;
-  text-align: center;
-  min-width: 0;
-}
-
-.topbar-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.progress-bar-wrap {
-  height: 8px;
-  background: var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 8px;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-2) 60%, var(--primary-3) 100%);
-  border-radius: 999px;
-  width: 0%;
-  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.progress-text {
-  font-size: var(--fs-progress);
-  color: var(--muted);
-  font-weight: 700;
-  margin-top: 6px;
-}
-
-/* ---------- PLAYER ---------- */
+.topbar-center { flex: 1; text-align: center; min-width: 0; }
+.topbar-title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.progress-bar-wrap { height: 8px; background: var(--border); border-radius: 999px; overflow: hidden; margin-top: 8px; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary) 0%, var(--primary-2) 60%, var(--primary-3) 100%); border-radius: 999px; width: 0%; transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.progress-text { font-size: var(--fs-progress); color: var(--muted); font-weight: 700; margin-top: 6px; }
 .player {
-  flex: 1;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 26px;
-  padding: 26px 18px;
-  margin: 8px 0;
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 26px; padding: 26px 18px; margin: 8px 0;
   background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(24px) saturate(1.15);
-  -webkit-backdrop-filter: blur(24px) saturate(1.15);
-  border-radius: var(--radius);
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(24px) saturate(1.15); -webkit-backdrop-filter: blur(24px) saturate(1.15);
+  border-radius: var(--radius); border: 2px solid rgba(255, 255, 255, 0.5);
   box-shadow: var(--shadow-md);
 }
-
-@media (prefers-color-scheme: dark) {
-  .player {
-    background: rgba(45, 35, 64, 0.6);
-    border-color: rgba(255, 255, 255, 0.08);
-  }
-}
-
+@media (prefers-color-scheme: dark) { .player { background: rgba(45, 35, 64, 0.6); border-color: rgba(255, 255, 255, 0.08); } }
 .sentence-badge {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  color: white;
-  padding: 10px 24px;
-  border-radius: 999px;
-  font-size: var(--fs-badge);
-  font-weight: 800;
+  color: white; padding: 10px 24px; border-radius: 999px;
+  font-size: var(--fs-badge); font-weight: 800;
   box-shadow: 0 6px 20px rgba(255,94,126,0.4);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-flex; align-items: center; gap: 8px;
 }
-
-/* play controls row */
-.play-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--controls-gap);
-}
-
+.play-controls { display: flex; align-items: center; justify-content: center; gap: var(--controls-gap); }
 .nav-btn {
-  width: var(--nav-btn-size);
-  height: var(--nav-btn-size);
-  border-radius: 50%;
-  background: var(--card);
-  border: 2px solid var(--border);
-  color: var(--text);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  box-shadow: var(--shadow-sm);
+  width: var(--nav-btn-size); height: var(--nav-btn-size); border-radius: 50%;
+  background: var(--card); border: 2px solid var(--border); color: var(--text);
+  cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; box-shadow: var(--shadow-sm);
   transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s, color 0.15s, background 0.15s;
-  padding: 0;
-  font-family: inherit;
+  padding: 0; font-family: inherit;
 }
-
-.nav-btn:not(:disabled):hover {
-  color: var(--primary);
-  background: var(--bg-2);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.nav-btn:not(:disabled):active {
-  transform: scale(0.9);
-}
-
-.nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-.nav-btn svg {
-  width: 30%;
-  height: 30%;
-  fill: currentColor;
-}
-
-.nav-btn .nav-label {
-  font-size: 11px;
-  font-weight: 800;
-  color: currentColor;
-  line-height: 1;
-  margin-top: 3px;
-}
-
+.nav-btn:not(:disabled):hover { color: var(--primary); background: var(--bg-2); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.nav-btn:not(:disabled):active { transform: scale(0.9); }
+.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.nav-btn svg { width: 30%; height: 30%; fill: currentColor; }
+.nav-btn .nav-label { font-size: 11px; font-weight: 800; color: currentColor; line-height: 1; margin-top: 3px; }
 .play-btn {
-  width: var(--play-btn-size);
-  height: var(--play-btn-size);
-  border-radius: 50%;
+  width: var(--play-btn-size); height: var(--play-btn-size); border-radius: 50%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: grid; place-items: center;
+  color: white; border: none; cursor: pointer; display: grid; place-items: center;
   box-shadow: var(--shadow-primary), inset 0 -4px 14px rgba(0,0,0,0.18);
-  transition: transform 0.15s;
-  position: relative;
+  transition: transform 0.15s; position: relative;
   animation: glowBreath 2.6s ease-in-out infinite;
 }
-
 @keyframes glowBreath {
   0%, 100% { box-shadow: 0 12px 34px rgba(255,94,126,0.4), inset 0 -4px 14px rgba(0,0,0,0.18); }
-  50%      { box-shadow: 0 18px 56px rgba(255,94,126,0.65), inset 0 -4px 14px rgba(0,0,0,0.18); }
+  50% { box-shadow: 0 18px 56px rgba(255,94,126,0.65), inset 0 -4px 14px rgba(0,0,0,0.18); }
 }
-
 .play-btn::after {
-  content: '';
-  position: absolute;
-  inset: -12px;
-  border-radius: 50%;
+  content: ''; position: absolute; inset: -12px; border-radius: 50%;
   border: 3px solid transparent;
   background: linear-gradient(135deg, var(--primary), var(--primary-3)) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity 0.2s; pointer-events: none;
 }
-
-.play-btn.playing::after {
-  opacity: 0.6;
-  animation: ripple 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes ripple {
-  0%   { transform: scale(1);   opacity: 0.6; }
-  100% { transform: scale(1.45); opacity: 0; }
-}
-
+.play-btn.playing::after { opacity: 0.6; animation: ripple 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes ripple { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.45); opacity: 0; } }
 .play-btn:active { transform: scale(0.93); }
-
-.play-btn svg {
-  width: 44%;
-  height: 44%;
-  fill: white;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25));
-}
+.play-btn svg { width: 44%; height: 44%; fill: white; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.25)); }
 .play-btn svg.play-icon { margin-right: -5px; }
-
-.play-hint {
-  font-size: var(--fs-hint);
-  color: var(--muted);
-  text-align: center;
-  min-height: 22px;
-  font-weight: 700;
-  line-height: 1.7;
-}
-
-/* ---------- SPEED ---------- */
-.speed-section {
-  width: 100%;
-  max-width: 380px;
-}
-
-.speed-label {
-  display: block;
-  font-size: 15px;
-  color: var(--muted);
-  text-align: center;
-  margin-bottom: 10px;
-  font-weight: 800;
-  letter-spacing: 0.3px;
-}
-
-.speed-segmented {
-  display: flex;
-  background: var(--border);
-  border-radius: 18px;
-  padding: 5px;
-  gap: 4px;
-}
-
+.play-hint { font-size: var(--fs-hint); color: var(--muted); text-align: center; min-height: 22px; font-weight: 700; line-height: 1.7; }
+.speed-section { width: 100%; max-width: 380px; }
+.speed-label { display: block; font-size: 15px; color: var(--muted); text-align: center; margin-bottom: 10px; font-weight: 800; letter-spacing: 0.3px; }
+.speed-segmented { display: flex; background: var(--border); border-radius: 18px; padding: 5px; gap: 4px; }
 .speed-option {
-  flex: 1;
-  padding: 12px 8px;
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-family: inherit;
-  font-size: var(--fs-speed);
-  font-weight: 800;
-  cursor: pointer;
-  border-radius: 14px;
-  transition: all 0.2s;
-  white-space: nowrap;
+  flex: 1; padding: 12px 8px; border: none; background: transparent;
+  color: var(--muted); font-family: inherit; font-size: var(--fs-speed);
+  font-weight: 800; cursor: pointer; border-radius: 14px; transition: all 0.2s; white-space: nowrap;
 }
-
 .speed-option:hover { color: var(--text-2); }
-
-.speed-option.active {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  color: white;
-  box-shadow: 0 4px 14px rgba(255,94,126,0.4);
-}
-
+.speed-option.active { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%); color: white; box-shadow: 0 4px 14px rgba(255,94,126,0.4); }
 .speed-option:active { transform: scale(0.95); }
-
-/* ---------- CONTROLS ---------- */
-.controls {
-  display: flex; flex-direction: column; gap: 12px;
-  margin-top: 18px; flex-shrink: 0;
-}
-
+.controls { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; flex-shrink: 0; }
 .primary-btn, .secondary-btn {
-  padding: 18px;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
-  font-size: var(--fs-btn);
-  font-weight: 800;
-  border: none;
-  cursor: pointer;
+  padding: 18px; border-radius: var(--radius-sm); font-family: inherit;
+  font-size: var(--fs-btn); font-weight: 800; border: none; cursor: pointer;
   transition: transform 0.12s, box-shadow 0.2s, background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  letter-spacing: 0.3px;
+  display: flex; align-items: center; justify-content: center; gap: 10px; letter-spacing: 0.3px;
 }
-
-.primary-btn {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  color: white;
-  box-shadow: 0 8px 24px rgba(255,94,126,0.4);
-}
-
+.primary-btn { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%); color: white; box-shadow: 0 8px 24px rgba(255,94,126,0.4); }
 .primary-btn:hover { box-shadow: 0 12px 32px rgba(255,94,126,0.55); }
 .primary-btn:active { transform: scale(0.97); }
-
-.secondary-btn {
-  background: var(--card);
-  color: var(--text);
-  border: 2px solid var(--border);
-  box-shadow: var(--shadow-sm);
-}
-
+.secondary-btn { background: var(--card); color: var(--text); border: 2px solid var(--border); box-shadow: var(--shadow-sm); }
 .secondary-btn:hover { background: var(--bg-2); }
 .secondary-btn:active { transform: scale(0.97); }
-
-/* ---------- RESULT ---------- */
 .result-icon {
-  width: 100px; height: 100px;
-  margin: 0 auto 18px;
-  border-radius: 50%;
+  width: 100px; height: 100px; margin: 0 auto 18px; border-radius: 50%;
   background: linear-gradient(135deg, var(--accent-teal) 0%, var(--success) 100%);
-  display: grid; place-items: center;
-  font-size: 52px;
+  display: grid; place-items: center; font-size: 52px;
   box-shadow: 0 16px 40px rgba(46,213,115,0.45);
-  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-             gentleBounce 2.6s ease-in-out 0.8s infinite;
+  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), gentleBounce 2.6s ease-in-out 0.8s infinite;
 }
-
-@keyframes popIn {
-  from { opacity: 0; transform: scale(0.4) rotate(-25deg); }
-  to   { opacity: 1; transform: scale(1) rotate(0); }
-}
-
-.result-title {
-  margin: 8px 0;
-  font-family: var(--font-display);
-  font-size: 30px;
-  font-weight: 900;
-  text-align: center;
-  color: var(--text);
-}
-
-.result-sub {
-  text-align: center;
-  color: var(--muted);
-  font-size: 16px;
-  margin: 4px 0 20px;
-  font-weight: 700;
-}
-
+@keyframes popIn { from { opacity: 0; transform: scale(0.4) rotate(-25deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+.result-title { margin: 8px 0; font-family: var(--font-display); font-size: 30px; font-weight: 900; text-align: center; color: var(--text); }
+.result-sub { text-align: center; color: var(--muted); font-size: 16px; margin: 4px 0 20px; font-weight: 700; }
 .result-list {
-  background: var(--card);
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 20px 10px 44px;
-  margin: 0;
-  flex: 1;
-  overflow-y: auto;
-  font-size: var(--fs-result-item);
-  line-height: 2;
-  box-shadow: var(--shadow-sm);
-  list-style: none;
-  scrollbar-width: none;
+  background: var(--card); border: 2px solid var(--border); border-radius: var(--radius);
+  padding: 10px 20px 10px 44px; margin: 0; flex: 1; overflow-y: auto;
+  font-size: var(--fs-result-item); line-height: 2; box-shadow: var(--shadow-sm); list-style: none;
 }
-.result-list::-webkit-scrollbar { display: none; }
-
-.result-list li {
-  padding: 16px 0;
-  border-bottom: 2px dashed var(--border);
-  position: relative;
-  padding-right: 42px;
-  color: var(--text-2);
-  font-weight: 600;
-}
-
-/* عدد فارسی از data-num خوانده می‌شود (به‌جای counter که رقم لاتین می‌سازد) */
+.result-list li { padding: 16px 0; border-bottom: 2px dashed var(--border); position: relative; padding-right: 42px; color: var(--text-2); font-weight: 600; }
 .result-list li::before {
-  content: attr(data-num);
-  position: absolute;
-  right: 0;
-  top: 15px;
-  width: 32px; height: 32px;
-  border-radius: 50%;
+  content: attr(data-num); position: absolute; right: 0; top: 15px;
+  width: 32px; height: 32px; border-radius: 50%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  color: white;
-  display: grid;
-  place-items: center;
-  font-size: 14px;
-  font-weight: 900;
+  color: white; display: grid; place-items: center; font-size: 14px; font-weight: 900;
   box-shadow: 0 4px 10px rgba(255,94,126,0.35);
 }
-
-/* برای آیتم‌های بدون شماره (مثل حالت خالی) دایره و فاصله حذف شود */
 .result-list li:not([data-num])::before { display: none; }
 .result-list li:not([data-num]) { padding-right: 0; }
-
 .result-list li:last-child { border-bottom: none; }
-
-/* ---------- LOAD ERROR ---------- */
 .server-note {
-  background: var(--card);
-  border: 2px dashed var(--border);
-  border-radius: var(--radius);
-  padding: 18px;
-  margin-top: 16px;
-  font-size: 14px;
-  line-height: 2;
-  text-align: right;
-  box-shadow: var(--shadow-sm);
-  font-weight: 600;
+  background: var(--card); border: 2px dashed var(--border); border-radius: var(--radius);
+  padding: 18px; margin-top: 16px; font-size: 14px; line-height: 2; text-align: right;
+  box-shadow: var(--shadow-sm); font-weight: 600;
 }
-
 .server-note strong { color: var(--primary); }
-
 .pick-file-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  margin-top: 16px;
-  padding: 18px;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
-  font-size: var(--fs-btn);
-  font-weight: 800;
-  border: none;
-  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; margin-top: 16px; padding: 18px; border-radius: var(--radius-sm);
+  font-family: inherit; font-size: var(--fs-btn); font-weight: 800;
+  border: none; cursor: pointer;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-  color: white;
-  box-shadow: 0 8px 24px rgba(255,94,126,0.4);
+  color: white; box-shadow: 0 8px 24px rgba(255,94,126,0.4);
   transition: transform 0.12s, box-shadow 0.2s;
 }
-
 .pick-file-btn:hover { box-shadow: 0 12px 32px rgba(255,94,126,0.55); }
 .pick-file-btn:active { transform: scale(0.97); }
-
 #file-input { display: none; }
+.mode-options, .game-options { display: flex; flex-direction: column; gap: 16px; padding: 16px 4px; flex: 1; justify-content: center; }
+.mode-card, .game-card {
+  display: flex; align-items: center; gap: 18px; padding: 22px;
+  border-radius: var(--radius); border: 3px solid var(--border);
+  cursor: pointer; font-family: inherit; text-align: right;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, border-color 0.2s;
+  background: var(--card); color: var(--text);
+  animation: cardIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+.mode-card:nth-child(1), .game-card:nth-child(1) { animation-delay: 60ms; }
+.mode-card:nth-child(2), .game-card:nth-child(2) { animation-delay: 140ms; }
+.mode-card:hover, .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+.mode-card:active, .game-card:active { transform: scale(0.97); }
+.mode-icon, .game-icon {
+  font-size: 44px; line-height: 1; width: 76px; height: 76px;
+  border-radius: 22px; display: grid; place-items: center;
+  flex-shrink: 0; box-shadow: var(--shadow-sm);
+}
+.mode-card:nth-child(1) .mode-icon { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%); }
+.mode-card:nth-child(2) .mode-icon { background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-teal) 100%); }
+.game-card:nth-child(1) .game-icon { background: linear-gradient(135deg, var(--primary-2) 0%, var(--primary-3) 100%); }
+.game-card:nth-child(2) .game-icon { background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-purple) 100%); }
+.mode-content, .game-content { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.mode-title, .game-title { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--text); line-height: 1.2; }
+.mode-desc, .game-desc { font-size: 15px; color: var(--muted); font-weight: 700; line-height: 1.5; }
+.game-screen { padding: 12px 12px 12px; overflow: hidden; }
+.game-score { font-size: 16px; color: var(--muted); font-weight: 800; margin-top: 4px; }
+.falling-stats { display: flex; justify-content: center; gap: 18px; font-size: 16px; color: var(--muted); font-weight: 800; margin-top: 4px; }
+.falling-stats span { background: var(--border); padding: 4px 12px; border-radius: 999px; }
+.scramble-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 16px; }
+.scramble-hint { font-size: 18px; font-weight: 800; color: var(--text-2); text-align: center; margin: 0; min-height: 26px; transition: color 0.3s; }
+.scramble-answer {
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 20px;
+  border-radius: 22px; background: rgba(255,255,255,0.55);
+  border: 3px dashed var(--border); min-height: 80px; min-width: 200px; max-width: 100%;
+  align-items: center; justify-content: center;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+@media (prefers-color-scheme: dark) { .scramble-answer { background: rgba(45,35,64,0.55); } }
+.scramble-answer.correct { border-color: var(--success); background: rgba(46,213,115,0.18); box-shadow: 0 0 30px rgba(46,213,115,0.35); animation: answerPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.scramble-answer.wrong { border-color: var(--danger); background: rgba(255,71,87,0.12); animation: shake 0.4s; }
+@keyframes answerPop { 0% { transform: scale(1); } 40% { transform: scale(1.08); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+.scramble-slot {
+  width: clamp(38px, 11vw, 48px); height: clamp(44px, 13vw, 56px);
+  border-radius: 14px; border: 2px solid var(--border); background: var(--card);
+  font-family: var(--font-display); font-size: clamp(20px, 6.5vw, 26px);
+  font-weight: 900; color: var(--text); display: grid; place-items: center;
+  cursor: pointer; transition: all 0.15s; padding: 0; box-shadow: var(--shadow-sm);
+}
+.scramble-slot.filled { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(255,94,126,0.35); }
+.scramble-slot.filled:active { transform: scale(0.9); }
+.scramble-pool {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  padding: 16px; border-radius: 22px; background: rgba(255,255,255,0.4);
+  min-height: 80px; max-width: 100%;
+}
+@media (prefers-color-scheme: dark) { .scramble-pool { background: rgba(45,35,64,0.4); } }
+.scramble-tile {
+  width: clamp(44px, 12vw, 54px); height: clamp(52px, 14vw, 62px);
+  border-radius: 16px; border: none;
+  background: linear-gradient(135deg, var(--accent-purple) 0%, var(--primary) 100%);
+  color: white; font-family: var(--font-display); font-size: clamp(22px, 7vw, 28px);
+  font-weight: 900; cursor: pointer; box-shadow: 0 5px 14px rgba(167,139,250,0.4);
+  transition: transform 0.12s, box-shadow 0.15s; padding: 0;
+  animation: tileIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+@keyframes tileIn { from { opacity: 0; transform: scale(0.5) rotate(-10deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+.scramble-tile:hover { box-shadow: 0 8px 20px rgba(167,139,250,0.6); transform: translateY(-2px); }
+.scramble-tile:active { transform: scale(0.88); }
+.scramble-actions { display: flex; gap: 12px; width: 100%; max-width: 420px; }
+.scramble-actions button { flex: 1; padding: 14px; font-size: 17px; }
+.scramble-success-overlay {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  pointer-events: none; z-index: 100;
+  font-family: var(--font-display); font-size: 48px; font-weight: 900;
+  color: var(--success); text-shadow: 0 6px 30px rgba(46,213,115,0.6);
+  animation: successFloat 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes successFloat {
+  0% { opacity: 0; transform: scale(0.3) translateY(20px); }
+  30% { opacity: 1; transform: scale(1.15) translateY(0); }
+  70% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(1.2) translateY(-30px); }
+}
+.falling-area {
+  flex: 1; position: relative; overflow: hidden; border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(78,205,196,0.18) 0%, rgba(167,139,250,0.10) 50%, rgba(255,217,61,0.12) 100%);
+  border: 2px solid rgba(255,255,255,0.5); min-height: 300px;
+}
+@media (prefers-color-scheme: dark) {
+  .falling-area { background: linear-gradient(180deg, rgba(78,205,196,0.10) 0%, rgba(167,139,250,0.08) 50%, rgba(255,217,61,0.06) 100%); border-color: rgba(255,255,255,0.08); }
+}
+@keyframes fallDown { from { top: -70px; } to { top: 100%; } }
+.falling-word {
+  position: absolute; top: -70px; padding: 10px 18px; border-radius: 16px;
+  font-family: var(--font-display); font-size: clamp(16px, 5vw, 22px); font-weight: 800;
+  cursor: pointer; white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  background: var(--card); color: var(--text); border: 2px solid var(--border);
+  user-select: none; -webkit-user-select: none; will-change: top;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+.falling-word:active { transform: scale(0.95); }
+.falling-word.hit-correct { background: linear-gradient(135deg, var(--success) 0%, var(--accent-teal) 100%); color: white; border-color: transparent; }
+.falling-word.hit-wrong { background: linear-gradient(135deg, var(--danger) 0%, var(--primary) 100%); color: white; border-color: transparent; }
+.score-popup {
+  position: fixed; font-family: var(--font-display); font-size: 28px; font-weight: 900;
+  pointer-events: none; z-index: 200;
+  animation: scoreFloat 0.8s ease-out forwards;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+@keyframes scoreFloat { from { opacity: 1; transform: translate(-50%, 0) scale(1); } to { opacity: 0; transform: translate(-50%, -60px) scale(1.4); } }
 </style>
 </head>
 <body>
 
-<!-- Dynamic blurred background -->
 <div class="app-bg"></div>
 
-<!-- Splash screen (full-screen image) -->
 <div class="splash" id="splash">
   <img src="images/farsi3.png" alt="املاگو" onerror="this.remove()">
 </div>
 
 <div class="container">
 
-  <!-- Load screen -->
   <section id="screen-load" class="screen active">
     <div class="app-header">
       <div class="app-logo">📚</div>
@@ -810,70 +423,97 @@ code {
       <p class="error">⚠️ درس‌ها بارگذاری نشدند</p>
       <div class="server-note">
         فایل <code>lessons.json</code> پیدا نشد یا مرورگر اجازهٔ خواندن آن را نداد.<br><br>
-        اگر فایل را با دوبار کلیک باز کرده‌اید، مرورگرها اجازهٔ خواندن خودکار فایل را نمی‌دهند.
-        در پوشهٔ پروژه ترمینال باز کنید و اجرا کنید:<br><br>
-        <code>python -m http.server 8000</code><br><br>
-        سپس در مرورگر باز کنید:<br>
+        <code>python -m http.server 8000</code><br>
         <code>http://localhost:8000/</code>
       </div>
-      <button id="btn-pick-file" class="pick-file-btn">
-        <span>📁</span>
-        <span>انتخاب فایل JSON</span>
-      </button>
+      <button id="btn-pick-file" class="pick-file-btn"><span>📁</span><span>انتخاب فایل JSON</span></button>
       <input type="file" id="file-input" accept=".json,.txt">
     </div>
   </section>
 
-  <!-- Lessons -->
   <section id="screen-lessons" class="screen">
     <div class="app-header">
       <div class="app-logo">📚</div>
       <h1 class="app-title">املاگو</h1>
-      <p class="app-sub">یک درس انتخاب کن و دیکته بنویس 🎈</p>
+      <p class="app-sub">یک درس انتخاب کن 🎈</p>
     </div>
     <div id="lesson-list" class="lesson-list"></div>
   </section>
 
-  <!-- Dictation -->
+  <section id="screen-mode-select" class="screen">
+    <header class="topbar">
+      <button id="btn-mode-back" class="icon-btn" aria-label="بازگشت">→</button>
+      <div class="topbar-center"><h2 id="mode-lesson-name" class="topbar-title"></h2></div>
+      <div style="width:var(--icon-btn-size)"></div>
+    </header>
+    <div class="mode-options">
+      <button class="mode-card" id="btn-mode-dictation">
+        <div class="mode-icon">🎧</div>
+        <div class="mode-content">
+          <div class="mode-title">املاگو</div>
+          <div class="mode-desc">جملات را بشنو و بنویس</div>
+        </div>
+      </button>
+      <button class="mode-card" id="btn-mode-games">
+        <div class="mode-icon">🎮</div>
+        <div class="mode-content">
+          <div class="mode-title">املابازی</div>
+          <div class="mode-desc">با کلمه‌ها بازی کن</div>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <section id="screen-game-select" class="screen">
+    <header class="topbar">
+      <button id="btn-gamesel-back" class="icon-btn" aria-label="بازگشت">→</button>
+      <div class="topbar-center"><h2 class="topbar-title">یک بازی انتخاب کن</h2></div>
+      <div style="width:var(--icon-btn-size)"></div>
+    </header>
+    <div class="game-options">
+      <button class="game-card" id="btn-game-scramble">
+        <div class="game-icon">🔤</div>
+        <div class="game-content">
+          <div class="game-title">مرتب کردن حروف</div>
+          <div class="game-desc">حروف را به ترتیب بچین</div>
+        </div>
+      </button>
+      <button class="game-card" id="btn-game-falling">
+        <div class="game-icon">⭐</div>
+        <div class="game-content">
+          <div class="game-title">شکار کلمه درست</div>
+          <div class="game-desc">کلمه‌های درست را بگیر</div>
+        </div>
+      </button>
+    </div>
+  </section>
+
   <section id="screen-dictation" class="screen">
     <header class="topbar">
       <button id="btn-back" class="icon-btn" aria-label="بازگشت">→</button>
       <div class="topbar-center">
         <h2 id="lesson-name" class="topbar-title"></h2>
-        <div class="progress-bar-wrap">
-          <div id="progress-fill" class="progress-bar-fill"></div>
-        </div>
+        <div class="progress-bar-wrap"><div id="progress-fill" class="progress-bar-fill"></div></div>
         <div id="progress" class="progress-text"></div>
       </div>
       <div style="width:var(--icon-btn-size)"></div>
     </header>
-
     <div class="player">
-      <div class="sentence-badge">
-        <span>🎧</span>
-        <span>جمله <span id="sentence-num">۱</span></span>
-      </div>
-
+      <div class="sentence-badge"><span>🎧</span><span>جمله <span id="sentence-num">۱</span></span></div>
       <div class="play-controls">
-        <!-- دکمهٔ بعدی — سمت راست در RTL -->
         <button id="btn-next" class="nav-btn" aria-label="جمله بعدی">
           <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
           <span class="nav-label">بعدی</span>
         </button>
-
         <button id="btn-play" class="play-btn" aria-label="پخش">
           <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </button>
-
-        <!-- دکمهٔ قبلی — سمت چپ در RTL -->
         <button id="btn-prev" class="nav-btn" aria-label="جمله قبلی" disabled>
           <svg viewBox="0 0 24 24"><path d="M18 6l-8.5 6 8.5 6V6zM6 6v12h2V6H6z"/></svg>
           <span class="nav-label">قبلی</span>
         </button>
       </div>
-
       <p id="play-status" class="play-hint"></p>
-
       <div class="speed-section">
         <span class="speed-label">سرعت پخش</span>
         <div class="speed-segmented" id="speed-row">
@@ -883,13 +523,56 @@ code {
         </div>
       </div>
     </div>
-
     <div class="controls">
       <button id="btn-finish" class="secondary-btn">تمام شد ✓</button>
     </div>
   </section>
 
-  <!-- Result -->
+  <section id="screen-game-scramble" class="screen game-screen">
+    <header class="topbar">
+      <button id="btn-scramble-back" class="icon-btn" aria-label="بازگشت">→</button>
+      <div class="topbar-center">
+        <h2 class="topbar-title">مرتب کردن حروف</h2>
+        <div class="game-score">امتیاز: <span id="scramble-score">۰</span></div>
+      </div>
+      <div style="width:var(--icon-btn-size)"></div>
+    </header>
+    <div class="scramble-area">
+      <p id="scramble-hint" class="scramble-hint">حروف را به ترتیب لمس کن</p>
+      <div id="scramble-answer" class="scramble-answer"></div>
+      <div id="scramble-pool" class="scramble-pool"></div>
+      <div class="scramble-actions">
+        <button id="btn-scramble-clear" class="secondary-btn">پاک کن 🧹</button>
+        <button id="btn-scramble-skip" class="secondary-btn">بعدی ➡️</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-game-falling" class="screen game-screen">
+    <header class="topbar">
+      <button id="btn-falling-back" class="icon-btn" aria-label="بازگشت">→</button>
+      <div class="topbar-center">
+        <h2 class="topbar-title">شکار کلمه درست</h2>
+        <div class="falling-stats">
+          <span>⭐ <span id="falling-score">۰</span></span>
+          <span>⏱ <span id="falling-time">۴۵</span></span>
+        </div>
+      </div>
+      <div style="width:var(--icon-btn-size)"></div>
+    </header>
+    <div id="falling-area" class="falling-area"></div>
+  </section>
+
+  <section id="screen-game-result" class="screen">
+    <div class="result-icon">🏆</div>
+    <h2 class="result-title">آفرین!</h2>
+    <p class="result-sub">امتیاز تو: <strong id="game-result-score" style="font-size:28px;color:var(--primary)">۰</strong></p>
+    <div class="controls">
+      <button id="btn-game-again" class="primary-btn">بازی دوباره 🔁</button>
+      <button id="btn-game-exit" class="secondary-btn">بازگشت به بازی‌ها 🎮</button>
+    </div>
+  </section>
+
   <section id="screen-result" class="screen">
     <div class="result-icon">🎉</div>
     <h2 class="result-title">دیکته تمام شد!</h2>
@@ -905,12 +588,13 @@ code {
 
 <script>
 // ============================================================
-// CONFIG — قابل تغییر
+// CONFIG
 // ============================================================
 const SPLASH_DURATION_MS = 3000;
 const DEFAULT_SPEED = 0.75;
 const LESSONS_BG = 'images/farsi3.png';
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'webp'];
+const FALLING_DURATION_SEC = 45;
 
 const EMBEDDED_LESSONS = {};
 
@@ -918,39 +602,150 @@ const EMBEDDED_LESSONS = {};
 // STATE
 // ============================================================
 const state = {
-  lessons: {},
-  lesson: null,
-  chosen: [],
-  currentIndex: -1,
-  current: null,
-  audio: null,
-  speed: DEFAULT_SPEED,
+  lessons: {}, lesson: null, chosen: [], currentIndex: -1,
+  current: null, audio: null, speed: DEFAULT_SPEED,
+};
+
+const scramble = {
+  active: false, locked: false, word: '', slots: [], pool: [], score: 0,
+};
+
+const falling = {
+  active: false, score: 0, timeLeft: FALLING_DURATION_SEC,
+  timerInterval: null, spawnInterval: null, words: { correct: [], wrong: [] },
 };
 
 // ============================================================
 // UTILS
 // ============================================================
 const toFaNum = (n) => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c =>
-    ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
 }
 
+// ---------- ساختار داده جدید: کلید "words" جدا شود ----------
+function isWordsValue(v) {
+  return v && typeof v === 'object' && !Array.isArray(v);
+}
 function isLessonDict(v) {
-  return v && typeof v === 'object' && !Array.isArray(v) &&
-         Object.keys(v).length > 0 &&
-         Object.values(v).every(x => typeof x === 'string');
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return false;
+  const keys = Object.keys(v);
+  if (keys.length === 0) return false;
+  for (const [k, val] of Object.entries(v)) {
+    if (k === 'words') {
+      if (!isWordsValue(val)) return false;
+      continue;
+    }
+    if (typeof val !== 'string') return false;
+  }
+  return true;
 }
 
+// لیست جملات یک درس (بدون کلید words)
+function getSentenceKeys(lesson) {
+  if (!lesson || typeof lesson !== 'object') return [];
+  return Object.keys(lesson).filter(k => k !== 'words' && typeof lesson[k] === 'string');
+}
+function countSentences(lesson) { return getSentenceKeys(lesson).length; }
+
+// دیکشنری کلمات یک درس
+function getWordPairs(lessonName) {
+  const lesson = state.lessons[lessonName];
+  if (!lesson || typeof lesson !== 'object') return {};
+  const w = lesson.words;
+  if (!isWordsValue(w)) return {};
+  return w;
+}
+
+// کلمات صحیح (کلیدها)
+function getCorrectWords(lessonName) {
+  const pairs = getWordPairs(lessonName);
+  const out = [];
+  for (const cw of Object.keys(pairs)) {
+    if (typeof cw === 'string' && cw.length >= 2) out.push(cw);
+  }
+  return out;
+}
+
+// کلمات غلط (مقادیر) — آرایه یا رشته
+function getWrongWords(lessonName) {
+  const pairs = getWordPairs(lessonName);
+  const out = [];
+  for (const [cw, wl] of Object.entries(pairs)) {
+    if (Array.isArray(wl)) {
+      wl.forEach(w => {
+        if (typeof w === 'string' && w.length >= 2 && w !== cw) out.push(w);
+      });
+    } else if (typeof wl === 'string' && wl.length >= 2 && wl !== cw) {
+      out.push(wl);
+    }
+  }
+  return out;
+}
+
+// فالبک: استخراج کلمات از جملات (اگر words نبود)
+function extractWordsFromSentences(lessonName, minLen = 3) {
+  const lesson = state.lessons[lessonName] || {};
+  const set = new Set();
+  for (const k of getSentenceKeys(lesson)) {
+    k.split(/\s+/).forEach(w => {
+      const clean = w.replace(/^[^\u0600-\u06FF]+|[^\u0600-\u06FF]+$/g, '');
+      if (clean.length >= minLen && !clean.includes('\u200c')) set.add(clean);
+    });
+  }
+  return [...set];
+}
+
+// ساخت اشکال به‌هم‌ریخته (فالبک برای کلمات غلط)
+function makeScrambles(word, count) {
+  const out = [];
+  const letters = Array.from(word);
+  if (letters.length < 3) return out;
+  let attempts = 0;
+  while (out.length < count && attempts < 40) {
+    attempts++;
+    const shuffled = shuffle(letters).join('');
+    if (shuffled !== word && !out.includes(shuffled)) out.push(shuffled);
+  }
+  return out;
+}
+
+// کلمات بازی «مرتب کردن حروف»: فقط شکل صحیح
+function getScrambleWords(lessonName) {
+  const correct = getCorrectWords(lessonName);
+  if (correct.length > 0) return correct;
+  return extractWordsFromSentences(lessonName, 3);
+}
+
+// کلمات بازی «شکار»: درست + غلط (اگر غلط نبود، به‌هم‌ریخته می‌سازیم)
+function getFallingWords(lessonName) {
+  let correct = getCorrectWords(lessonName);
+  let wrong = getWrongWords(lessonName);
+
+  if (correct.length === 0) {
+    // فالبک کامل
+    correct = extractWordsFromSentences(lessonName, 3);
+    const generated = [];
+    correct.forEach(w => generated.push(...makeScrambles(w, 1)));
+    wrong = generated;
+    return { correct, wrong };
+  }
+
+  if (wrong.length === 0) {
+    // words هست ولی لیست نادرست خالی است → خودمان می‌سازیم
+    const generated = [];
+    correct.forEach(w => generated.push(...makeScrambles(w, 1)));
+    wrong = generated;
+  }
+  return { correct, wrong };
+}
+
+// ---------- JSON parsing ----------
 function parseLessonsText(text) {
   if (!text) return null;
   if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-  try {
-    return JSON.parse(text);
-  } catch (e) {
-    return JSON.parse(text.replace(/,\s*([}\]])/g, '$1'));
-  }
+  try { return JSON.parse(text); }
+  catch (e) { return JSON.parse(text.replace(/,\s*([}\]])/g, '$1')); }
 }
 
 function parseLessonsJson(data, fileStem = '') {
@@ -973,25 +768,27 @@ function show(id) {
   document.getElementById(id).classList.add('active');
 }
 
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 // ============================================================
-// BACKGROUND MANAGER
+// BACKGROUND
 // ============================================================
 function setAppBg(url) {
   const bg = document.querySelector('.app-bg');
-  if (!url) {
-    bg.style.backgroundImage = 'none';
-    return;
-  }
+  if (!url) { bg.style.backgroundImage = 'none'; return; }
   bg.style.backgroundImage = `url('${url.replace(/'/g, "\\'")}')`;
 }
-
 function trySetLessonBg(name) {
   let idx = 0;
   const tryNext = () => {
-    if (idx >= IMAGE_EXTS.length) {
-      setAppBg(LESSONS_BG);
-      return;
-    }
+    if (idx >= IMAGE_EXTS.length) { setAppBg(LESSONS_BG); return; }
     const url = buildLessonImageUrl(name, IMAGE_EXTS[idx]);
     const probe = new Image();
     probe.onload = () => setAppBg(url);
@@ -1000,46 +797,31 @@ function trySetLessonBg(name) {
   };
   tryNext();
 }
-
-// ============================================================
-// LESSON IMAGE
-// ============================================================
 function buildLessonImageUrl(name, ext) {
   return 'images/' + encodeURIComponent(name) + '.' + ext;
 }
-
 function hashGradient(name) {
   let h = 0;
-  for (let i = 0; i < name.length; i++) {
-    h = (h * 31 + name.charCodeAt(i)) & 0xffff;
-  }
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) & 0xffff;
   const hue1 = h % 360;
   const hue2 = (hue1 + 70) % 360;
   return `linear-gradient(160deg, hsl(${hue1}, 75%, 60%) 0%, hsl(${hue2}, 80%, 45%) 100%)`;
 }
-
 function attachLessonImage(card, name) {
   const img = card.querySelector('.lesson-bg');
   const fallback = card.querySelector('.lesson-fallback-bg');
   let idx = 0;
-
   img.onerror = () => {
     idx++;
-    if (idx < IMAGE_EXTS.length) {
-      img.src = buildLessonImageUrl(name, IMAGE_EXTS[idx]);
-    } else {
-      img.style.display = 'none';
-      fallback.style.display = 'block';
-    }
+    if (idx < IMAGE_EXTS.length) img.src = buildLessonImageUrl(name, IMAGE_EXTS[idx]);
+    else { img.style.display = 'none'; fallback.style.display = 'block'; }
   };
-  img.onload = () => {
-    fallback.style.display = 'none';
-  };
+  img.onload = () => { fallback.style.display = 'none'; };
   img.src = buildLessonImageUrl(name, IMAGE_EXTS[0]);
 }
 
 // ============================================================
-// PLAY BUTTON ICON
+// PLAY BUTTON / SPEED
 // ============================================================
 function setPlayIcon(isPlaying) {
   const btn = document.getElementById('btn-play');
@@ -1051,24 +833,15 @@ function setPlayIcon(isPlaying) {
     btn.classList.remove('playing');
   }
 }
-
-// ============================================================
-// SPEED
-// ============================================================
 function setSpeed(speed, persist = true) {
   state.speed = speed;
   document.querySelectorAll('.speed-option').forEach(el => {
     const s = parseFloat(el.dataset.speed);
     el.classList.toggle('active', Math.abs(s - speed) < 0.001);
   });
-  if (state.audio) {
-    try { state.audio.playbackRate = speed; } catch (e) {}
-  }
-  if (persist) {
-    try { localStorage.setItem('amlagoo-speed', String(speed)); } catch (e) {}
-  }
+  if (state.audio) { try { state.audio.playbackRate = speed; } catch (e) {} }
+  if (persist) { try { localStorage.setItem('amlagoo-speed', String(speed)); } catch (e) {} }
 }
-
 function restoreSpeed() {
   let saved = DEFAULT_SPEED;
   try {
@@ -1085,11 +858,7 @@ function restoreSpeed() {
 // LOAD LESSONS
 // ============================================================
 async function autoLoadLessons() {
-  if (Object.keys(EMBEDDED_LESSONS).length > 0) {
-    state.lessons = EMBEDDED_LESSONS;
-    return true;
-  }
-
+  if (Object.keys(EMBEDDED_LESSONS).length > 0) { state.lessons = EMBEDDED_LESSONS; return true; }
   const tryPaths = ['./lessons.json', './data/jsons/sevom/lessons.json'];
   for (const path of tryPaths) {
     try {
@@ -1100,17 +869,11 @@ async function autoLoadLessons() {
       try { data = parseLessonsText(text); }
       catch (e) { console.warn('JSON parse failed', path, e); continue; }
       const parsed = parseLessonsJson(data, 'lessons');
-      if (Object.keys(parsed).length > 0) {
-        state.lessons = parsed;
-        return true;
-      }
-    } catch (e) {
-      console.warn('fetch failed', path, e);
-    }
+      if (Object.keys(parsed).length > 0) { state.lessons = parsed; return true; }
+    } catch (e) { console.warn('fetch failed', path, e); }
   }
   return false;
 }
-
 function loadFromFile(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1119,10 +882,7 @@ function loadFromFile(file) {
         const data = parseLessonsText(reader.result);
         const stem = file.name.replace(/\.(json|txt)$/i, '');
         const parsed = parseLessonsJson(data, stem);
-        if (Object.keys(parsed).length === 0) {
-          reject(new Error('فرمت فایل نامشخص است'));
-          return;
-        }
+        if (Object.keys(parsed).length === 0) { reject(new Error('فرمت فایل نامشخص است')); return; }
         resolve(parsed);
       } catch (e) { reject(e); }
     };
@@ -1132,7 +892,7 @@ function loadFromFile(file) {
 }
 
 // ============================================================
-// RENDER
+// RENDER LESSONS
 // ============================================================
 function renderLessons() {
   const list = document.getElementById('lesson-list');
@@ -1143,15 +903,13 @@ function renderLessons() {
     return;
   }
   names.forEach((name, i) => {
-    const count = Object.keys(state.lessons[name]).length;
-
+    const count = countSentences(state.lessons[name]); // ← فقط جملات، بدون words
     const card = document.createElement('div');
     card.className = 'lesson-card';
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.style.animationDelay = (i * 60) + 'ms';
     card.setAttribute('aria-label', name);
-
     card.innerHTML = `
       <div class="lesson-fallback-bg" style="background:${hashGradient(name)}"></div>
       <img class="lesson-bg" alt="" loading="lazy">
@@ -1161,112 +919,103 @@ function renderLessons() {
         <span class="lesson-count">${toFaNum(count)} جمله</span>
       </div>
     `;
-
     attachLessonImage(card, name);
-    card.onclick = () => startLesson(name);
+    card.onclick = () => openLesson(name);
     card.onkeydown = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        startLesson(name);
-      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLesson(name); }
     };
     list.appendChild(card);
   });
 }
 
+// ============================================================
+// NAVIGATION
+// ============================================================
+function openLesson(name) {
+  state.lesson = name;
+  state.chosen = []; state.currentIndex = -1; state.current = null;
+  document.getElementById('mode-lesson-name').textContent = name;
+  show('screen-mode-select');
+  trySetLessonBg(name);
+}
+function goToLessons() {
+  if (state.audio) { state.audio.pause(); state.audio = null; }
+  state.lesson = null; state.chosen = []; state.currentIndex = -1; state.current = null;
+  setAppBg(LESSONS_BG);
+  show('screen-lessons');
+}
+function goBackToModeSelect() {
+  if (state.audio) { state.audio.pause(); state.audio = null; }
+  state.chosen = []; state.currentIndex = -1; state.current = null;
+  show('screen-mode-select');
+  trySetLessonBg(state.lesson);
+}
+
+// ============================================================
+// DICTATION
+// ============================================================
 function createAudio(url) {
   const a = new Audio(encodeURI(url));
   a.playbackRate = state.speed;
-  a.addEventListener('loadedmetadata', () => {
-    try { a.playbackRate = state.speed; } catch (e) {}
-  });
+  a.addEventListener('loadedmetadata', () => { try { a.playbackRate = state.speed; } catch (e) {} });
   return a;
 }
-
 function renderCurrent() {
   const c = state.current;
-
   document.getElementById('lesson-name').textContent = state.lesson;
   document.getElementById('sentence-num').textContent = toFaNum(c.index);
-  document.getElementById('progress').textContent =
-    `جمله ${toFaNum(c.index)} از ${toFaNum(c.total)}`;
-
-  const total = Object.keys(state.lessons[state.lesson]).length;
-  const pickedPct = (state.chosen.length / total) * 100;
-  document.getElementById('progress-fill').style.width = pickedPct + '%';
-
+  document.getElementById('progress').textContent = `جمله ${toFaNum(c.index)} از ${toFaNum(c.total)}`;
+  const total = countSentences(state.lessons[state.lesson]);
+  document.getElementById('progress-fill').style.width = ((state.chosen.length / total) * 100) + '%';
   document.getElementById('btn-prev').disabled = (state.currentIndex <= 0);
-
   document.getElementById('play-status').textContent = '';
-
   if (state.audio) state.audio.pause();
   state.audio = null;
-
   setPlayIcon(false);
-
   if (!c.audio_url) {
     document.getElementById('play-status').textContent = '⚠️ این جمله مسیر صوتی ندارد';
     return;
   }
-
   state.audio = createAudio(c.audio_url);
-
   state.audio.addEventListener('play', () => setPlayIcon(true));
   state.audio.addEventListener('pause', () => setPlayIcon(false));
   state.audio.addEventListener('ended', () => setPlayIcon(false));
   state.audio.addEventListener('error', () => {
-    document.getElementById('play-status').textContent =
-      '⚠️ فایل صوتی یافت نشد: ' + c.audio_url;
+    document.getElementById('play-status').textContent = '⚠️ فایل صوتی یافت نشد: ' + c.audio_url;
     setPlayIcon(false);
   });
-
   document.getElementById('play-status').textContent = 'برای شنیدن، دکمهٔ پخش را بزنید 🎧';
 }
-
-// ============================================================
-// LOGIC
-// ============================================================
 function makeCurrentFromIndex(idx) {
   return {
     sentence: state.chosen[idx].sentence,
     audio_url: state.chosen[idx].path,
     index: idx + 1,
-    total: Object.keys(state.lessons[state.lesson]).length,
+    total: countSentences(state.lessons[state.lesson]), // ← بدون words
   };
 }
-
-function startLesson(name) {
-  state.lesson = name;
-  state.chosen = [];
-  state.currentIndex = -1;
-  state.current = null;
-
-  const mapping = state.lessons[name];
-  if (!mapping || Object.keys(mapping).length === 0) {
-    alert('این درس خالی است.');
+function startDictation() {
+  if (!state.lesson) return;
+  if (countSentences(state.lessons[state.lesson]) === 0) {
+    alert('این درس جمله‌ای ندارد.');
     return;
   }
+  state.chosen = []; state.currentIndex = -1; state.current = null;
   show('screen-dictation');
-  trySetLessonBg(name);
+  trySetLessonBg(state.lesson);
   goNext();
 }
-
 function pickNext() {
   const mapping = state.lessons[state.lesson] || {};
+  const allKeys = getSentenceKeys(mapping); // ← بدون words
   const used = new Set(state.chosen.map(c => c.sentence));
-  const remaining = Object.keys(mapping).filter(k => !used.has(k));
+  const remaining = allKeys.filter(k => !used.has(k));
   if (remaining.length === 0) return null;
   const sentence = remaining[Math.floor(Math.random() * remaining.length)];
   const path = mapping[sentence];
   state.chosen.push({ sentence, path });
-  return {
-    sentence,
-    audio_url: path,
-    index: state.chosen.length,
-    total: Object.keys(mapping).length,
-  };
+  return { sentence, audio_url: path, index: state.chosen.length, total: allKeys.length };
 }
-
 function goNext() {
   if (state.currentIndex < state.chosen.length - 1) {
     state.currentIndex++;
@@ -1280,7 +1029,6 @@ function goNext() {
   state.current = nxt;
   renderCurrent();
 }
-
 function goPrev() {
   if (state.currentIndex > 0) {
     state.currentIndex--;
@@ -1288,7 +1036,6 @@ function goPrev() {
     renderCurrent();
   }
 }
-
 function finishNow() {
   if (state.audio) { state.audio.pause(); state.audio = null; }
   show('screen-result');
@@ -1301,21 +1048,10 @@ function finishNow() {
   state.chosen.forEach((c, i) => {
     const li = document.createElement('li');
     li.textContent = c.sentence;
-    li.dataset.num = toFaNum(i + 1);   // شمارهٔ فارسی روی آیتم
+    li.dataset.num = toFaNum(i + 1);
     list.appendChild(li);
   });
 }
-
-function goBack() {
-  if (state.audio) { state.audio.pause(); state.audio = null; }
-  state.lesson = null;
-  state.chosen = [];
-  state.currentIndex = -1;
-  state.current = null;
-  setAppBg(LESSONS_BG);
-  show('screen-lessons');
-}
-
 function togglePlay() {
   if (!state.audio && state.current && state.current.audio_url) {
     state.audio = createAudio(state.current.audio_url);
@@ -1324,7 +1060,6 @@ function togglePlay() {
     state.audio.addEventListener('ended', () => setPlayIcon(false));
   }
   if (!state.audio) return;
-
   if (state.audio.paused) {
     state.audio.playbackRate = state.speed;
     document.getElementById('play-status').textContent = '';
@@ -1337,15 +1072,267 @@ function togglePlay() {
 }
 
 // ============================================================
+// SCRAMBLE GAME — فقط شکل صحیح کلمات
+// ============================================================
+function startScrambleGame() {
+  const words = getScrambleWords(state.lesson);
+  if (words.length === 0) {
+    alert('کلمه‌ای برای بازی پیدا نشد. در فایل JSON کلید "words" را بررسی کنید.');
+    return;
+  }
+  scramble.active = true;
+  scramble.locked = false;
+  scramble.score = 0;
+  scramble.word = '';
+  scramble.slots = [];
+  scramble.pool = [];
+  document.getElementById('scramble-score').textContent = toFaNum(0);
+  show('screen-game-scramble');
+  nextScrambleWord();
+}
+function nextScrambleWord() {
+  if (!scramble.active) return;
+  const words = getScrambleWords(state.lesson);
+  if (words.length === 0) { exitScrambleGame(); return; }
+  let word, attempts = 0;
+  do {
+    word = words[Math.floor(Math.random() * words.length)];
+    attempts++;
+  } while (word === scramble.word && words.length > 1 && attempts < 20);
+
+  scramble.word = word;
+  const letters = Array.from(word);
+  scramble.slots = letters.map(() => null);
+  scramble.pool = shuffle(letters);
+  scramble.locked = false;
+
+  const answerEl = document.getElementById('scramble-answer');
+  answerEl.classList.remove('correct', 'wrong');
+  document.getElementById('scramble-hint').textContent = 'حروف را به ترتیب لمس کن';
+  renderScramble();
+}
+function renderScramble() {
+  const answerEl = document.getElementById('scramble-answer');
+  answerEl.classList.remove('correct', 'wrong');
+  answerEl.innerHTML = '';
+  scramble.slots.forEach((letter, i) => {
+    const slot = document.createElement('button');
+    slot.type = 'button';
+    slot.className = 'scramble-slot' + (letter ? ' filled' : '');
+    if (letter) slot.textContent = letter;
+    slot.addEventListener('click', () => {
+      if (scramble.locked) return;
+      if (!scramble.slots[i]) return;
+      scramble.pool.push(scramble.slots[i]);
+      scramble.slots[i] = null;
+      renderScramble();
+    });
+    answerEl.appendChild(slot);
+  });
+  const poolEl = document.getElementById('scramble-pool');
+  poolEl.innerHTML = '';
+  scramble.pool.forEach((letter, i) => {
+    const tile = document.createElement('button');
+    tile.type = 'button';
+    tile.className = 'scramble-tile';
+    tile.textContent = letter;
+    tile.style.animationDelay = (i * 40) + 'ms';
+    tile.addEventListener('click', () => {
+      if (scramble.locked) return;
+      placeLetter(i);
+    });
+    poolEl.appendChild(tile);
+  });
+  if (!scramble.locked && scramble.slots.length > 0 && !scramble.slots.includes(null)) {
+    checkScramble();
+  }
+}
+function placeLetter(poolIndex) {
+  if (scramble.locked) return;
+  const slotIndex = scramble.slots.indexOf(null);
+  if (slotIndex === -1) return;
+  scramble.slots[slotIndex] = scramble.pool[poolIndex];
+  scramble.pool.splice(poolIndex, 1);
+  renderScramble();
+}
+function checkScramble() {
+  const answerEl = document.getElementById('scramble-answer');
+  const assembled = scramble.slots.join('');
+  if (assembled === scramble.word) {
+    scramble.locked = true;
+    scramble.score++;
+    document.getElementById('scramble-score').textContent = toFaNum(scramble.score);
+    answerEl.classList.add('correct');
+    document.getElementById('scramble-hint').textContent = '🎉 آفرین! درست بود';
+    showSuccessOverlay();
+    setTimeout(() => { if (scramble.active) nextScrambleWord(); }, 1600);
+  } else {
+    answerEl.classList.add('wrong');
+  }
+}
+function showSuccessOverlay() {
+  const el = document.createElement('div');
+  el.className = 'scramble-success-overlay';
+  el.textContent = '🎉 آفرین!';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1400);
+}
+function clearScramble() {
+  if (scramble.locked) return;
+  const letters = scramble.slots.filter(l => l);
+  scramble.pool = shuffle([...scramble.pool, ...letters]);
+  scramble.slots = scramble.slots.map(() => null);
+  renderScramble();
+}
+function skipScramble() { if (!scramble.locked) nextScrambleWord(); }
+function exitScrambleGame() {
+  scramble.active = false;
+  scramble.locked = false;
+  show('screen-game-select');
+}
+
+// ============================================================
+// FALLING GAME — درست‌ها (کلید) + نادرست‌ها (مقدار)
+// ============================================================
+function startFallingGame() {
+  clearInterval(falling.timerInterval);
+  clearInterval(falling.spawnInterval);
+
+  const data = getFallingWords(state.lesson);
+  falling.words = data;
+
+  if (data.correct.length === 0) {
+    alert('کلمه‌ای برای بازی پیدا نشد. در فایل JSON کلید "words" را بررسی کنید.');
+    return;
+  }
+
+  falling.active = true;
+  falling.score = 0;
+  falling.timeLeft = FALLING_DURATION_SEC;
+
+  document.getElementById('falling-score').textContent = toFaNum(0);
+  document.getElementById('falling-time').textContent = toFaNum(FALLING_DURATION_SEC);
+  const area = document.getElementById('falling-area');
+  area.innerHTML = '';
+
+  show('screen-game-falling');
+
+  requestAnimationFrame(() => {
+    if (!falling.active) return;
+    falling.spawnInterval = setInterval(spawnFallingWord, 900);
+    spawnFallingWord();
+    falling.timerInterval = setInterval(() => {
+      falling.timeLeft--;
+      document.getElementById('falling-time').textContent = toFaNum(Math.max(0, falling.timeLeft));
+      if (falling.timeLeft <= 0) endFallingGame();
+    }, 1000);
+  });
+}
+function spawnFallingWord() {
+  if (!falling.active) return;
+  const area = document.getElementById('falling-area');
+  if (!area) return;
+  if (area.children.length >= 9) return;
+
+  const { correct, wrong } = falling.words;
+  if (correct.length === 0) return;
+
+  let displayWord, isCorrect;
+  const hasWrong = wrong.length > 0;
+
+  if (hasWrong && Math.random() < 0.5) {
+    displayWord = wrong[Math.floor(Math.random() * wrong.length)];
+    isCorrect = false;
+  } else {
+    displayWord = correct[Math.floor(Math.random() * correct.length)];
+    isCorrect = true;
+  }
+  if (!displayWord) return;
+
+  const el = document.createElement('button');
+  el.type = 'button';
+  el.className = 'falling-word';
+  el.textContent = displayWord;
+  el.style.visibility = 'hidden';
+  area.appendChild(el);
+
+  const wordWidth = el.offsetWidth;
+  const areaWidth = area.clientWidth;
+  const maxLeft = Math.max(0, areaWidth - wordWidth - 8);
+  el.style.left = (4 + Math.random() * maxLeft) + 'px';
+  el.style.visibility = '';
+
+  const duration = 4.5 + Math.random() * 2;
+  el.style.animation = `fallDown ${duration}s linear forwards`;
+
+  el.addEventListener('click', () => onFallingWordClick(el, isCorrect));
+  el.addEventListener('animationend', () => {
+    if (!el.dataset.clicked && el.parentNode) el.remove();
+  });
+}
+function onFallingWordClick(el, isCorrect) {
+  if (!falling.active) return;
+  if (el.dataset.clicked) return;
+  el.dataset.clicked = '1';
+  el.style.animationPlayState = 'paused';
+
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top;
+
+  if (isCorrect) {
+    falling.score += 10;
+    el.classList.add('hit-correct');
+    el.textContent = '✓ ' + el.textContent;
+    showScorePopup(cx, cy, '+۱۰', '#2ED573');
+  } else {
+    falling.score = Math.max(0, falling.score - 5);
+    el.classList.add('hit-wrong');
+    el.textContent = '✗ ' + el.textContent;
+    showScorePopup(cx, cy, '−۵', '#FF4757');
+  }
+  document.getElementById('falling-score').textContent = toFaNum(falling.score);
+  setTimeout(() => { if (el.parentNode) el.remove(); }, 700);
+}
+function showScorePopup(x, y, text, color) {
+  const el = document.createElement('div');
+  el.className = 'score-popup';
+  el.textContent = text;
+  el.style.left = x + 'px';
+  el.style.top = y + 'px';
+  el.style.color = color;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 800);
+}
+function endFallingGame() {
+  if (!falling.active) return;
+  falling.active = false;
+  clearInterval(falling.timerInterval);
+  clearInterval(falling.spawnInterval);
+  const area = document.getElementById('falling-area');
+  if (area) area.innerHTML = '';
+  document.getElementById('game-result-score').textContent = toFaNum(falling.score);
+  show('screen-game-result');
+}
+function exitFallingGame() {
+  falling.active = false;
+  clearInterval(falling.timerInterval);
+  clearInterval(falling.spawnInterval);
+  const area = document.getElementById('falling-area');
+  if (area) area.innerHTML = '';
+  show('screen-game-select');
+}
+
+// ============================================================
 // EVENTS
 // ============================================================
 document.getElementById('btn-play').addEventListener('click', togglePlay);
 document.getElementById('btn-prev').addEventListener('click', goPrev);
 document.getElementById('btn-next').addEventListener('click', goNext);
 document.getElementById('btn-finish').addEventListener('click', finishNow);
-document.getElementById('btn-back').addEventListener('click', goBack);
-document.getElementById('btn-new').addEventListener('click', goBack);
-document.getElementById('btn-again').addEventListener('click', () => startLesson(state.lesson));
+document.getElementById('btn-back').addEventListener('click', goBackToModeSelect);
+document.getElementById('btn-new').addEventListener('click', goToLessons);
+document.getElementById('btn-again').addEventListener('click', startDictation);
 
 document.getElementById('speed-row').addEventListener('click', (e) => {
   const opt = e.target.closest('.speed-option');
@@ -1369,6 +1356,34 @@ document.getElementById('file-input').addEventListener('change', async (e) => {
   } catch (err) {
     alert('خطا در بارگذاری فایل: ' + err.message);
   }
+});
+
+// Mode select
+document.getElementById('btn-mode-back').addEventListener('click', goToLessons);
+document.getElementById('btn-mode-dictation').addEventListener('click', startDictation);
+document.getElementById('btn-mode-games').addEventListener('click', () => show('screen-game-select'));
+
+// Game select
+document.getElementById('btn-gamesel-back').addEventListener('click', () => {
+  trySetLessonBg(state.lesson);
+  show('screen-mode-select');
+});
+document.getElementById('btn-game-scramble').addEventListener('click', startScrambleGame);
+document.getElementById('btn-game-falling').addEventListener('click', startFallingGame);
+
+// Scramble
+document.getElementById('btn-scramble-back').addEventListener('click', exitScrambleGame);
+document.getElementById('btn-scramble-clear').addEventListener('click', clearScramble);
+document.getElementById('btn-scramble-skip').addEventListener('click', skipScramble);
+
+// Falling
+document.getElementById('btn-falling-back').addEventListener('click', exitFallingGame);
+
+// Game result
+document.getElementById('btn-game-again').addEventListener('click', startFallingGame);
+document.getElementById('btn-game-exit').addEventListener('click', () => {
+  trySetLessonBg(state.lesson);
+  show('screen-game-select');
 });
 
 // ============================================================
