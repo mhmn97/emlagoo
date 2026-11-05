@@ -1138,17 +1138,6 @@ function startFallingMusic() {
   } catch (e) {}
 }
 
-=======
-function startFallingMusic() {
-  const m = getFallingMusic();
-  if (!m) return;
-  try {
-    m.currentTime = 0;
-    const p = m.play();
-    if (p && p.catch) p.catch(() => {});
-  } catch (e) {}
-}
->>>>>>> 26d8b9335c9f84742c2486d519ea84fa39449cb8
 function stopFallingMusic() {
   if (!fallingMusic) return;
   try {
