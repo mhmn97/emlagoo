@@ -826,6 +826,8 @@ const FALLING_MAX_DURATION = 11;       // ← حداکثر زمان سقوط (ث
 const MATCH_PAIRS_COUNT = 5;           // ← ۵ جفت در هر دور
 const FALLING_MUSIC_SRC = 'words_music.mp3';
 const FALLING_MUSIC_START_SEC = 20;   // ← ثانیه‌ای که آهنگ باید از آن شروع شود
+=======
+>>>>>>> 26d8b9335c9f84742c2486d519ea84fa39449cb8
 
 const EMBEDDED_LESSONS = {};
 
@@ -1097,9 +1099,12 @@ function restoreSpeed() {
 // ============================================================
 // FALLING MUSIC
 // ============================================================
+<<<<<<< HEAD
 // ============================================================
 // FALLING MUSIC
 // ============================================================
+=======
+>>>>>>> 26d8b9335c9f84742c2486d519ea84fa39449cb8
 function getFallingMusic() {
   if (!fallingMusic) {
     try {
@@ -1111,6 +1116,7 @@ function getFallingMusic() {
   }
   return fallingMusic;
 }
+<<<<<<< HEAD
 
 function startFallingMusic() {
   const m = getFallingMusic();
@@ -1138,11 +1144,26 @@ function startFallingMusic() {
   } catch (e) {}
 }
 
+=======
+function startFallingMusic() {
+  const m = getFallingMusic();
+  if (!m) return;
+  try {
+    m.currentTime = 0;
+    const p = m.play();
+    if (p && p.catch) p.catch(() => {});
+  } catch (e) {}
+}
+>>>>>>> 26d8b9335c9f84742c2486d519ea84fa39449cb8
 function stopFallingMusic() {
   if (!fallingMusic) return;
   try {
     fallingMusic.pause();
+<<<<<<< HEAD
     fallingMusic.currentTime = FALLING_MUSIC_START_SEC;
+=======
+    fallingMusic.currentTime = 0;
+>>>>>>> 26d8b9335c9f84742c2486d519ea84fa39449cb8
   } catch (e) {}
 }
 
