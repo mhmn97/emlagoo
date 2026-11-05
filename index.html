@@ -288,9 +288,9 @@ code { background: var(--border); padding: 3px 8px; border-radius: 8px; font-fam
 .pick-file-btn:hover { box-shadow: 0 12px 32px rgba(255,94,126,0.55); }
 .pick-file-btn:active { transform: scale(0.97); }
 #file-input { display: none; }
-.mode-options, .game-options { display: flex; flex-direction: column; gap: 16px; padding: 16px 4px; flex: 1; justify-content: center; }
+.mode-options, .game-options { display: flex; flex-direction: column; gap: 14px; padding: 16px 4px; flex: 1; justify-content: center; }
 .mode-card, .game-card {
-  display: flex; align-items: center; gap: 18px; padding: 22px;
+  display: flex; align-items: center; gap: 18px; padding: 20px;
   border-radius: var(--radius); border: 3px solid var(--border);
   cursor: pointer; font-family: inherit; text-align: right;
   box-shadow: var(--shadow-md);
@@ -299,11 +299,12 @@ code { background: var(--border); padding: 3px 8px; border-radius: 8px; font-fam
   animation: cardIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 .mode-card:nth-child(1), .game-card:nth-child(1) { animation-delay: 60ms; }
-.mode-card:nth-child(2), .game-card:nth-child(2) { animation-delay: 140ms; }
+.mode-card:nth-child(2), .game-card:nth-child(2) { animation-delay: 120ms; }
+.game-card:nth-child(3) { animation-delay: 180ms; }
 .mode-card:hover, .game-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
 .mode-card:active, .game-card:active { transform: scale(0.97); }
 .mode-icon, .game-icon {
-  font-size: 44px; line-height: 1; width: 76px; height: 76px;
+  font-size: 42px; line-height: 1; width: 72px; height: 72px;
   border-radius: 22px; display: grid; place-items: center;
   flex-shrink: 0; box-shadow: var(--shadow-sm);
 }
@@ -311,9 +312,10 @@ code { background: var(--border); padding: 3px 8px; border-radius: 8px; font-fam
 .mode-card:nth-child(2) .mode-icon { background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-teal) 100%); }
 .game-card:nth-child(1) .game-icon { background: linear-gradient(135deg, var(--primary-2) 0%, var(--primary-3) 100%); }
 .game-card:nth-child(2) .game-icon { background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-purple) 100%); }
+.game-card:nth-child(3) .game-icon { background: linear-gradient(135deg, var(--success) 0%, var(--accent-teal) 100%); }
 .mode-content, .game-content { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.mode-title, .game-title { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--text); line-height: 1.2; }
-.mode-desc, .game-desc { font-size: 15px; color: var(--muted); font-weight: 700; line-height: 1.5; }
+.mode-title, .game-title { font-family: var(--font-display); font-size: 24px; font-weight: 900; color: var(--text); line-height: 1.2; }
+.mode-desc, .game-desc { font-size: 14px; color: var(--muted); font-weight: 700; line-height: 1.5; }
 .game-screen { padding: 12px 12px 12px; overflow: hidden; }
 .game-score { font-size: 16px; color: var(--muted); font-weight: 800; margin-top: 4px; }
 .falling-stats { display: flex; justify-content: center; gap: 18px; font-size: 16px; color: var(--muted); font-weight: 800; margin-top: 4px; }
@@ -401,6 +403,197 @@ code { background: var(--border); padding: 3px 8px; border-radius: 8px; font-fam
   text-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 @keyframes scoreFloat { from { opacity: 1; transform: translate(-50%, 0) scale(1); } to { opacity: 0; transform: translate(-50%, -60px) scale(1.4); } }
+
+/* ════════════════════════════════════════════════════════════════════
+   MATCH GAME — دو ستون ۵ تایی
+   ════════════════════════════════════════════════════════════════════ */
+.match-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.match-hint {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+  flex-shrink: 0;
+}
+.match-board {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  min-height: 0;
+}
+.match-col-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 0;
+  min-width: 0;
+}
+.match-col-label {
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+.match-col-label.word-label {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+}
+.match-col-label.meaning-label {
+  background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-purple) 100%);
+}
+.match-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+.match-card {
+  flex: 1;
+  min-height: 46px;
+  border-radius: 14px;
+  border: 3px solid transparent;
+  font-family: var(--font-display);
+  font-size: clamp(15px, 4.2vw, 21px);
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  padding: 4px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.18s, opacity 0.3s;
+  box-shadow: 0 4px 14px rgba(61,44,92,0.18);
+  -webkit-user-select: none; user-select: none;
+  animation: tileIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  line-height: 1.2;
+}
+.match-card.word {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+}
+.match-card.meaning {
+  background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-purple) 100%);
+}
+.match-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(61,44,92,0.28);
+}
+.match-card:active { transform: scale(0.95); }
+.match-card.selected {
+  border-color: var(--primary-3);
+  box-shadow: 0 0 0 3px rgba(255,217,61,0.6),
+              0 6px 20px rgba(255,217,61,0.5);
+  transform: translateY(-2px) scale(1.03);
+  z-index: 2;
+}
+.match-card.matched {
+  opacity: 0.35;
+  pointer-events: none;
+  background: linear-gradient(135deg, var(--success) 0%, #1AB861 100%) !important;
+  transform: scale(0.96);
+  box-shadow: 0 2px 8px rgba(46,213,115,0.3);
+}
+.match-card.wrong {
+  animation: shake 0.5s;
+  background: linear-gradient(135deg, var(--danger) 0%, var(--primary) 100%) !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   GAME RESULT DETAILS (برای بازی ریزش)
+   ════════════════════════════════════════════════════════════════════ */
+.game-result-details {
+  margin: 8px auto 16px;
+  width: 100%;
+  max-width: 520px;
+}
+.falling-result-stats {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.stat-card {
+  flex: 1;
+  max-width: 160px;
+  padding: 14px 10px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.stat-card.correct {
+  background: rgba(46,213,115,0.15);
+  border: 2px solid var(--success);
+}
+.stat-card.wrong {
+  background: rgba(255,71,87,0.15);
+  border: 2px solid var(--danger);
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.stat-card.correct .stat-num { color: var(--success); }
+.stat-card.wrong .stat-num { color: var(--danger); }
+.stat-label {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.wrong-list {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  box-shadow: var(--shadow-sm);
+  max-height: 220px;
+  overflow-y: auto;
+}
+.wrong-list-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-2);
+  margin-bottom: 8px;
+  text-align: right;
+}
+.wrong-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 16px;
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+.wrong-item:last-child { border-bottom: none; }
+.wrong-form {
+  color: var(--danger);
+  text-decoration: line-through;
+}
+.arrow { color: var(--muted); font-weight: 800; }
+.correct-form { color: var(--success); }
 </style>
 </head>
 <body>
@@ -485,6 +678,13 @@ code { background: var(--border); padding: 3px 8px; border-radius: 8px; font-fam
           <div class="game-desc">کلمه‌های درست را بگیر</div>
         </div>
       </button>
+      <button class="game-card" id="btn-game-match">
+        <div class="game-icon">🧩</div>
+        <div class="game-content">
+          <div class="game-title">کلمه و معنی</div>
+          <div class="game-desc">هر کلمه را به معنی‌اش وصل کن</div>
+        </div>
+      </button>
     </div>
   </section>
 
@@ -555,7 +755,7 @@ code { background: var(--border); padding: 3px 8px; border-radius: 8px; font-fam
         <h2 class="topbar-title">شکار کلمه درست</h2>
         <div class="falling-stats">
           <span>⭐ <span id="falling-score">۰</span></span>
-          <span>⏱ <span id="falling-time">۴۵</span></span>
+          <span>⏱ <span id="falling-time">۳۰</span></span>
         </div>
       </div>
       <div style="width:var(--icon-btn-size)"></div>
@@ -563,10 +763,35 @@ code { background: var(--border); padding: 3px 8px; border-radius: 8px; font-fam
     <div id="falling-area" class="falling-area"></div>
   </section>
 
+  <section id="screen-game-match" class="screen game-screen">
+    <header class="topbar">
+      <button id="btn-match-back" class="icon-btn" aria-label="بازگشت">→</button>
+      <div class="topbar-center">
+        <h2 class="topbar-title">کلمه و معنی</h2>
+        <div class="game-score">امتیاز: <span id="match-score">۰</span></div>
+      </div>
+      <div style="width:var(--icon-btn-size)"></div>
+    </header>
+    <div class="match-area">
+      <p class="match-hint">هر کلمه را به معنی‌اش وصل کن</p>
+      <div class="match-board">
+        <div class="match-col-wrap">
+          <div class="match-col-label word-label">کلمه</div>
+          <div class="match-col" id="match-words"></div>
+        </div>
+        <div class="match-col-wrap">
+          <div class="match-col-label meaning-label">معنی</div>
+          <div class="match-col" id="match-meanings"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="screen-game-result" class="screen">
     <div class="result-icon">🏆</div>
     <h2 class="result-title">آفرین!</h2>
     <p class="result-sub">امتیاز تو: <strong id="game-result-score" style="font-size:28px;color:var(--primary)">۰</strong></p>
+    <div id="game-result-details" class="game-result-details hidden"></div>
     <div class="controls">
       <button id="btn-game-again" class="primary-btn">بازی دوباره 🔁</button>
       <button id="btn-game-exit" class="secondary-btn">بازگشت به بازی‌ها 🎮</button>
@@ -594,7 +819,13 @@ const SPLASH_DURATION_MS = 3000;
 const DEFAULT_SPEED = 0.75;
 const LESSONS_BG = 'images/farsi3.png';
 const IMAGE_EXTS = ['jpg', 'jpeg', 'png', 'webp'];
-const FALLING_DURATION_SEC = 45;
+const FALLING_DURATION_SEC = 30;       // ← ۳۰ ثانیه
+const FALLING_SPAWN_MS = 1300;         // ← فاصلهٔ اسپاون (آهسته‌تر)
+const FALLING_MIN_DURATION = 8;        // ← حداقل زمان سقوط (ثانیه)
+const FALLING_MAX_DURATION = 11;       // ← حداکثر زمان سقوط (ثانیه)
+const MATCH_PAIRS_COUNT = 5;           // ← ۵ جفت در هر دور
+const FALLING_MUSIC_SRC = 'words_music.mp3';
+const FALLING_MUSIC_START_SEC = 20;   // ← ثانیه‌ای که آهنگ باید از آن شروع شود
 
 const EMBEDDED_LESSONS = {};
 
@@ -612,8 +843,19 @@ const scramble = {
 
 const falling = {
   active: false, score: 0, timeLeft: FALLING_DURATION_SEC,
-  timerInterval: null, spawnInterval: null, words: { correct: [], wrong: [] },
+  timerInterval: null, spawnInterval: null,
+  words: { correct: [], wrong: [] },        // wrong = [{word, correct}]
+  correctCount: 0, wrongCount: 0, wrongPicks: [],  // wrongPicks = [{word, correct}]
 };
+
+const match = {
+  active: false, locked: false,
+  pairs: [], cards: [], selected: [],
+  score: 0, matched: 0,
+};
+
+let currentGameType = 'falling'; // 'scramble' | 'falling' | 'match'
+let fallingMusic = null;
 
 // ============================================================
 // UTILS
@@ -623,41 +865,36 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
 }
 
-// ---------- ساختار داده جدید: کلید "words" جدا شود ----------
-function isWordsValue(v) {
-  return v && typeof v === 'object' && !Array.isArray(v);
-}
+function isDictValue(v) { return v && typeof v === 'object' && !Array.isArray(v); }
 function isLessonDict(v) {
   if (!v || typeof v !== 'object' || Array.isArray(v)) return false;
   const keys = Object.keys(v);
   if (keys.length === 0) return false;
   for (const [k, val] of Object.entries(v)) {
-    if (k === 'words') {
-      if (!isWordsValue(val)) return false;
+    if (k === 'words' || k === 'pair') {
+      if (!isDictValue(val)) return false;
       continue;
     }
     if (typeof val !== 'string') return false;
   }
   return true;
 }
-
-// لیست جملات یک درس (بدون کلید words)
 function getSentenceKeys(lesson) {
   if (!lesson || typeof lesson !== 'object') return [];
-  return Object.keys(lesson).filter(k => k !== 'words' && typeof lesson[k] === 'string');
+  return Object.keys(lesson).filter(k =>
+    k !== 'words' && k !== 'pair' && typeof lesson[k] === 'string'
+  );
 }
 function countSentences(lesson) { return getSentenceKeys(lesson).length; }
 
-// دیکشنری کلمات یک درس
+// ---------- words ----------
 function getWordPairs(lessonName) {
   const lesson = state.lessons[lessonName];
   if (!lesson || typeof lesson !== 'object') return {};
   const w = lesson.words;
-  if (!isWordsValue(w)) return {};
+  if (!isDictValue(w)) return {};
   return w;
 }
-
-// کلمات صحیح (کلیدها)
 function getCorrectWords(lessonName) {
   const pairs = getWordPairs(lessonName);
   const out = [];
@@ -666,24 +903,6 @@ function getCorrectWords(lessonName) {
   }
   return out;
 }
-
-// کلمات غلط (مقادیر) — آرایه یا رشته
-function getWrongWords(lessonName) {
-  const pairs = getWordPairs(lessonName);
-  const out = [];
-  for (const [cw, wl] of Object.entries(pairs)) {
-    if (Array.isArray(wl)) {
-      wl.forEach(w => {
-        if (typeof w === 'string' && w.length >= 2 && w !== cw) out.push(w);
-      });
-    } else if (typeof wl === 'string' && wl.length >= 2 && wl !== cw) {
-      out.push(wl);
-    }
-  }
-  return out;
-}
-
-// فالبک: استخراج کلمات از جملات (اگر words نبود)
 function extractWordsFromSentences(lessonName, minLen = 3) {
   const lesson = state.lessons[lessonName] || {};
   const set = new Set();
@@ -695,8 +914,6 @@ function extractWordsFromSentences(lessonName, minLen = 3) {
   }
   return [...set];
 }
-
-// ساخت اشکال به‌هم‌ریخته (فالبک برای کلمات غلط)
 function makeScrambles(word, count) {
   const out = [];
   const letters = Array.from(word);
@@ -709,35 +926,63 @@ function makeScrambles(word, count) {
   }
   return out;
 }
-
-// کلمات بازی «مرتب کردن حروف»: فقط شکل صحیح
 function getScrambleWords(lessonName) {
   const correct = getCorrectWords(lessonName);
   if (correct.length > 0) return correct;
   return extractWordsFromSentences(lessonName, 3);
 }
 
-// کلمات بازی «شکار»: درست + غلط (اگر غلط نبود، به‌هم‌ریخته می‌سازیم)
+// fallback words با نگهداشتن نگاشت نادرست → درست
 function getFallingWords(lessonName) {
-  let correct = getCorrectWords(lessonName);
-  let wrong = getWrongWords(lessonName);
+  const pairs = getWordPairs(lessonName);
+  const correct = [];
+  const wrong = [];    // [{word, correct}]
+
+  for (const [cw, wl] of Object.entries(pairs)) {
+    if (typeof cw === 'string' && cw.length >= 2) correct.push(cw);
+    const arr = Array.isArray(wl) ? wl : (typeof wl === 'string' ? [wl] : []);
+    arr.forEach(w => {
+      if (typeof w === 'string' && w.length >= 2 && w !== cw) {
+        wrong.push({ word: w, correct: cw });
+      }
+    });
+  }
 
   if (correct.length === 0) {
-    // فالبک کامل
-    correct = extractWordsFromSentences(lessonName, 3);
-    const generated = [];
-    correct.forEach(w => generated.push(...makeScrambles(w, 1)));
-    wrong = generated;
+    const extracted = extractWordsFromSentences(lessonName, 3);
+    extracted.forEach(w => {
+      correct.push(w);
+      makeScrambles(w, 1).forEach(scr => wrong.push({ word: scr, correct: w }));
+    });
     return { correct, wrong };
   }
-
   if (wrong.length === 0) {
-    // words هست ولی لیست نادرست خالی است → خودمان می‌سازیم
-    const generated = [];
-    correct.forEach(w => generated.push(...makeScrambles(w, 1)));
-    wrong = generated;
+    correct.forEach(w => {
+      makeScrambles(w, 1).forEach(scr => wrong.push({ word: scr, correct: w }));
+    });
   }
   return { correct, wrong };
+}
+
+// ---------- pair ----------
+function getPairWords(lessonName) {
+  const lesson = state.lessons[lessonName];
+  if (!lesson || typeof lesson !== 'object') return [];
+  const pairsDict = lesson.pair;
+  if (!isDictValue(pairsDict)) return [];
+  const result = [];
+  for (const [word, meanings] of Object.entries(pairsDict)) {
+    if (typeof word !== 'string' || word.trim().length === 0) continue;
+    let meaning = null;
+    if (Array.isArray(meanings) && meanings.length > 0) {
+      const valid = meanings.filter(m => typeof m === 'string' && m.trim().length > 0);
+      if (valid.length > 0) meaning = valid[Math.floor(Math.random() * valid.length)];
+    } else if (typeof meanings === 'string' && meanings.trim().length > 0) {
+      meaning = meanings;
+    }
+    if (meaning && meaning !== word) result.push({ word, meaning });
+  }
+  return result;
 }
 
 // ---------- JSON parsing ----------
@@ -747,14 +992,10 @@ function parseLessonsText(text) {
   try { return JSON.parse(text); }
   catch (e) { return JSON.parse(text.replace(/,\s*([}\]])/g, '$1')); }
 }
-
 function parseLessonsJson(data, fileStem = '') {
   const lessons = {};
   if (!data || typeof data !== 'object') return lessons;
-  if (isLessonDict(data)) {
-    lessons[fileStem || 'درس'] = data;
-    return lessons;
-  }
+  if (isLessonDict(data)) { lessons[fileStem || 'درس'] = data; return lessons; }
   const vals = Object.values(data);
   if (vals.length > 0 && vals.every(isLessonDict)) {
     for (const [k, v] of Object.entries(data)) lessons[k] = v;
@@ -767,7 +1008,6 @@ function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -855,6 +1095,58 @@ function restoreSpeed() {
 }
 
 // ============================================================
+// FALLING MUSIC
+// ============================================================
+// ============================================================
+// FALLING MUSIC
+// ============================================================
+function getFallingMusic() {
+  if (!fallingMusic) {
+    try {
+      fallingMusic = new Audio(FALLING_MUSIC_SRC);
+      fallingMusic.loop = true;
+      fallingMusic.volume = 0.4;
+      fallingMusic.addEventListener('error', () => {});
+    } catch (e) { fallingMusic = null; }
+  }
+  return fallingMusic;
+}
+
+function startFallingMusic() {
+  const m = getFallingMusic();
+  if (!m) return;
+
+  const seekAndPlay = () => {
+    try {
+      // اگر مدیای آهنگ هنوز لود نشده، صبر می‌کنیم
+      if (m.readyState < 1) return;
+      m.currentTime = FALLING_MUSIC_START_SEC;
+      const p = m.play();
+      if (p && p.catch) p.catch(() => {});
+    } catch (e) {}
+  };
+
+  try {
+    if (m.readyState >= 1) {
+      // metadata قبلاً لود شده
+      seekAndPlay();
+    } else {
+      // اولین بار — منتظر loadedmetadata می‌مانیم
+      m.addEventListener('loadedmetadata', seekAndPlay, { once: true });
+      m.load();
+    }
+  } catch (e) {}
+}
+
+function stopFallingMusic() {
+  if (!fallingMusic) return;
+  try {
+    fallingMusic.pause();
+    fallingMusic.currentTime = FALLING_MUSIC_START_SEC;
+  } catch (e) {}
+}
+
+// ============================================================
 // LOAD LESSONS
 // ============================================================
 async function autoLoadLessons() {
@@ -903,7 +1195,7 @@ function renderLessons() {
     return;
   }
   names.forEach((name, i) => {
-    const count = countSentences(state.lessons[name]); // ← فقط جملات، بدون words
+    const count = countSentences(state.lessons[name]);
     const card = document.createElement('div');
     card.className = 'lesson-card';
     card.setAttribute('role', 'button');
@@ -940,6 +1232,7 @@ function openLesson(name) {
 }
 function goToLessons() {
   if (state.audio) { state.audio.pause(); state.audio = null; }
+  stopFallingMusic();
   state.lesson = null; state.chosen = []; state.currentIndex = -1; state.current = null;
   setAppBg(LESSONS_BG);
   show('screen-lessons');
@@ -991,7 +1284,7 @@ function makeCurrentFromIndex(idx) {
     sentence: state.chosen[idx].sentence,
     audio_url: state.chosen[idx].path,
     index: idx + 1,
-    total: countSentences(state.lessons[state.lesson]), // ← بدون words
+    total: countSentences(state.lessons[state.lesson]),
   };
 }
 function startDictation() {
@@ -1007,7 +1300,7 @@ function startDictation() {
 }
 function pickNext() {
   const mapping = state.lessons[state.lesson] || {};
-  const allKeys = getSentenceKeys(mapping); // ← بدون words
+  const allKeys = getSentenceKeys(mapping);
   const used = new Set(state.chosen.map(c => c.sentence));
   const remaining = allKeys.filter(k => !used.has(k));
   if (remaining.length === 0) return null;
@@ -1072,9 +1365,11 @@ function togglePlay() {
 }
 
 // ============================================================
-// SCRAMBLE GAME — فقط شکل صحیح کلمات
+// SCRAMBLE GAME
 // ============================================================
 function startScrambleGame() {
+  currentGameType = 'scramble';
+  stopFallingMusic();
   const words = getScrambleWords(state.lesson);
   if (words.length === 0) {
     alert('کلمه‌ای برای بازی پیدا نشد. در فایل JSON کلید "words" را بررسی کنید.');
@@ -1192,9 +1487,10 @@ function exitScrambleGame() {
 }
 
 // ============================================================
-// FALLING GAME — درست‌ها (کلید) + نادرست‌ها (مقدار)
+// FALLING GAME
 // ============================================================
 function startFallingGame() {
+  currentGameType = 'falling';
   clearInterval(falling.timerInterval);
   clearInterval(falling.spawnInterval);
 
@@ -1209,6 +1505,9 @@ function startFallingGame() {
   falling.active = true;
   falling.score = 0;
   falling.timeLeft = FALLING_DURATION_SEC;
+  falling.correctCount = 0;
+  falling.wrongCount = 0;
+  falling.wrongPicks = [];
 
   document.getElementById('falling-score').textContent = toFaNum(0);
   document.getElementById('falling-time').textContent = toFaNum(FALLING_DURATION_SEC);
@@ -1216,10 +1515,11 @@ function startFallingGame() {
   area.innerHTML = '';
 
   show('screen-game-falling');
+  startFallingMusic();
 
   requestAnimationFrame(() => {
     if (!falling.active) return;
-    falling.spawnInterval = setInterval(spawnFallingWord, 900);
+    falling.spawnInterval = setInterval(spawnFallingWord, FALLING_SPAWN_MS);
     spawnFallingWord();
     falling.timerInterval = setInterval(() => {
       falling.timeLeft--;
@@ -1237,11 +1537,13 @@ function spawnFallingWord() {
   const { correct, wrong } = falling.words;
   if (correct.length === 0) return;
 
-  let displayWord, isCorrect;
+  let displayWord, isCorrect, correction = null;
   const hasWrong = wrong.length > 0;
 
   if (hasWrong && Math.random() < 0.5) {
-    displayWord = wrong[Math.floor(Math.random() * wrong.length)];
+    const w = wrong[Math.floor(Math.random() * wrong.length)];
+    displayWord = w.word;
+    correction = w.correct;
     isCorrect = false;
   } else {
     displayWord = correct[Math.floor(Math.random() * correct.length)];
@@ -1262,15 +1564,15 @@ function spawnFallingWord() {
   el.style.left = (4 + Math.random() * maxLeft) + 'px';
   el.style.visibility = '';
 
-  const duration = 4.5 + Math.random() * 2;
+  const duration = FALLING_MIN_DURATION + Math.random() * (FALLING_MAX_DURATION - FALLING_MIN_DURATION);
   el.style.animation = `fallDown ${duration}s linear forwards`;
 
-  el.addEventListener('click', () => onFallingWordClick(el, isCorrect));
+  el.addEventListener('click', () => onFallingWordClick(el, isCorrect, displayWord, correction));
   el.addEventListener('animationend', () => {
     if (!el.dataset.clicked && el.parentNode) el.remove();
   });
 }
-function onFallingWordClick(el, isCorrect) {
+function onFallingWordClick(el, isCorrect, word, correction) {
   if (!falling.active) return;
   if (el.dataset.clicked) return;
   el.dataset.clicked = '1';
@@ -1282,11 +1584,14 @@ function onFallingWordClick(el, isCorrect) {
 
   if (isCorrect) {
     falling.score += 10;
+    falling.correctCount++;
     el.classList.add('hit-correct');
     el.textContent = '✓ ' + el.textContent;
     showScorePopup(cx, cy, '+۱۰', '#2ED573');
   } else {
     falling.score = Math.max(0, falling.score - 5);
+    falling.wrongCount++;
+    if (correction) falling.wrongPicks.push({ word, correct: correction });
     el.classList.add('hit-wrong');
     el.textContent = '✗ ' + el.textContent;
     showScorePopup(cx, cy, '−۵', '#FF4757');
@@ -1304,22 +1609,212 @@ function showScorePopup(x, y, text, color) {
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 800);
 }
+
+function populateFallingResults() {
+  const details = document.getElementById('game-result-details');
+  details.classList.remove('hidden');
+
+  const statsHtml = `
+    <div class="falling-result-stats">
+      <div class="stat-card correct">
+        <div class="stat-num">${toFaNum(falling.correctCount)}</div>
+        <div class="stat-label">✓ درست</div>
+      </div>
+      <div class="stat-card wrong">
+        <div class="stat-num">${toFaNum(falling.wrongCount)}</div>
+        <div class="stat-label">✗ اشتباه</div>
+      </div>
+    </div>
+  `;
+
+  let wrongListHtml = '';
+  if (falling.wrongPicks.length > 0) {
+    // حذف تکراری‌ها بر اساس word
+    const seen = new Set();
+    const unique = falling.wrongPicks.filter(p => {
+      if (seen.has(p.word)) return false;
+      seen.add(p.word);
+      return true;
+    });
+    wrongListHtml = `
+      <div class="wrong-list">
+        <div class="wrong-list-title">کلماتی که اشتباه انتخاب کردی:</div>
+        ${unique.map(p => `
+          <div class="wrong-item">
+            <span class="wrong-form">${escapeHtml(p.word)}</span>
+            <span class="arrow">→</span>
+            <span class="correct-form">${escapeHtml(p.correct)}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  details.innerHTML = statsHtml + wrongListHtml;
+}
+
 function endFallingGame() {
   if (!falling.active) return;
   falling.active = false;
   clearInterval(falling.timerInterval);
   clearInterval(falling.spawnInterval);
+  stopFallingMusic();
   const area = document.getElementById('falling-area');
   if (area) area.innerHTML = '';
   document.getElementById('game-result-score').textContent = toFaNum(falling.score);
+  populateFallingResults();
   show('screen-game-result');
 }
 function exitFallingGame() {
   falling.active = false;
   clearInterval(falling.timerInterval);
   clearInterval(falling.spawnInterval);
+  stopFallingMusic();
   const area = document.getElementById('falling-area');
   if (area) area.innerHTML = '';
+  show('screen-game-select');
+}
+
+// ============================================================
+// MATCH GAME — دو ستون ۵ تایی
+// ============================================================
+function startMatchGame() {
+  currentGameType = 'match';
+  stopFallingMusic();
+
+  const allPairs = getPairWords(state.lesson);
+  if (allPairs.length < 2) {
+    alert('کلمه‌های هم‌معنی کافی برای بازی پیدا نشد. کلید "pair" را در فایل JSON بررسی کنید.');
+    return;
+  }
+
+  const selectedPairs = shuffle(allPairs).slice(0, Math.min(MATCH_PAIRS_COUNT, allPairs.length));
+  match.pairs = selectedPairs;
+
+  const cards = [];
+  selectedPairs.forEach((p, i) => {
+    cards.push({ id: 'w' + i, pairId: i, type: 'word', content: p.word, matched: false });
+    cards.push({ id: 'm' + i, pairId: i, type: 'meaning', content: p.meaning, matched: false });
+  });
+  match.cards = cards;
+  match.selected = [];
+  match.locked = false;
+  match.score = 0;
+  match.matched = 0;
+  match.active = true;
+
+  document.getElementById('match-score').textContent = toFaNum(0);
+
+  show('screen-game-match');
+  renderMatchGrid();
+}
+
+function renderMatchGrid() {
+  const wordsCol = document.getElementById('match-words');
+  const meaningsCol = document.getElementById('match-meanings');
+  wordsCol.innerHTML = '';
+  meaningsCol.innerHTML = '';
+
+  const wordCards = shuffle(match.cards.filter(c => c.type === 'word'));
+  const meaningCards = shuffle(match.cards.filter(c => c.type === 'meaning'));
+
+  wordCards.forEach((card, i) => wordsCol.appendChild(createMatchCardEl(card, i)));
+  meaningCards.forEach((card, i) => meaningsCol.appendChild(createMatchCardEl(card, i)));
+}
+
+function createMatchCardEl(card, idx) {
+  const el = document.createElement('button');
+  el.type = 'button';
+  el.dataset.id = card.id;
+  el.className = 'match-card ' + card.type;
+  el.style.animationDelay = (idx * 40) + 'ms';
+  el.textContent = card.content;
+  el.title = card.content;
+  if (card.matched) el.classList.add('matched');
+  el.addEventListener('click', () => onMatchCardClick(card.id));
+  return el;
+}
+
+function onMatchCardClick(id) {
+  if (!match.active || match.locked) return;
+  const card = match.cards.find(c => c.id === id);
+  if (!card || card.matched) return;
+
+  const el = document.querySelector(`[data-id="${id}"]`);
+  if (!el) return;
+
+  if (match.selected.includes(id)) {
+    match.selected = match.selected.filter(x => x !== id);
+    el.classList.remove('selected');
+    return;
+  }
+
+  const sameTypeId = match.selected.find(sid => {
+    const c = match.cards.find(x => x.id === sid);
+    return c && c.type === card.type;
+  });
+  if (sameTypeId) {
+    match.selected = match.selected.filter(x => x !== sameTypeId);
+    const prevEl = document.querySelector(`[data-id="${sameTypeId}"]`);
+    if (prevEl) prevEl.classList.remove('selected');
+  }
+
+  match.selected.push(id);
+  el.classList.add('selected');
+
+  if (match.selected.length === 2) checkMatch();
+}
+
+function checkMatch() {
+  const [id1, id2] = match.selected;
+  const c1 = match.cards.find(c => c.id === id1);
+  const c2 = match.cards.find(c => c.id === id2);
+  if (!c1 || !c2) { match.selected = []; return; }
+
+  const el1 = document.querySelector(`[data-id="${id1}"]`);
+  const el2 = document.querySelector(`[data-id="${id2}"]`);
+
+  if (c1.pairId === c2.pairId) {
+    match.locked = true;
+    if (el1) { el1.classList.remove('selected'); el1.classList.add('matched'); }
+    if (el2) { el2.classList.remove('selected'); el2.classList.add('matched'); }
+    match.score += 10;
+    match.matched++;
+    document.getElementById('match-score').textContent = toFaNum(match.score);
+
+    setTimeout(() => {
+      c1.matched = true;
+      c2.matched = true;
+      match.selected = [];
+      match.locked = false;
+      if (match.matched === match.pairs.length) setTimeout(endMatchGame, 400);
+    }, 550);
+  } else {
+    match.locked = true;
+    if (el1) el1.classList.add('wrong');
+    if (el2) el2.classList.add('wrong');
+    setTimeout(() => {
+      if (el1) el1.classList.remove('wrong', 'selected');
+      if (el2) el2.classList.remove('wrong', 'selected');
+      match.selected = [];
+      match.locked = false;
+    }, 700);
+  }
+}
+
+function endMatchGame() {
+  if (!match.active) return;
+  match.active = false;
+  showSuccessOverlay();
+  setTimeout(() => {
+    document.getElementById('game-result-score').textContent = toFaNum(match.score);
+    document.getElementById('game-result-details').classList.add('hidden');
+    show('screen-game-result');
+  }, 900);
+}
+
+function exitMatchGame() {
+  match.active = false;
+  match.locked = false;
   show('screen-game-select');
 }
 
@@ -1370,6 +1865,7 @@ document.getElementById('btn-gamesel-back').addEventListener('click', () => {
 });
 document.getElementById('btn-game-scramble').addEventListener('click', startScrambleGame);
 document.getElementById('btn-game-falling').addEventListener('click', startFallingGame);
+document.getElementById('btn-game-match').addEventListener('click', startMatchGame);
 
 // Scramble
 document.getElementById('btn-scramble-back').addEventListener('click', exitScrambleGame);
@@ -1379,11 +1875,32 @@ document.getElementById('btn-scramble-skip').addEventListener('click', skipScram
 // Falling
 document.getElementById('btn-falling-back').addEventListener('click', exitFallingGame);
 
+// Match
+document.getElementById('btn-match-back').addEventListener('click', exitMatchGame);
+
 // Game result
-document.getElementById('btn-game-again').addEventListener('click', startFallingGame);
+document.getElementById('btn-game-again').addEventListener('click', () => {
+  if (currentGameType === 'scramble') startScrambleGame();
+  else if (currentGameType === 'match') startMatchGame();
+  else startFallingGame();
+});
 document.getElementById('btn-game-exit').addEventListener('click', () => {
   trySetLessonBg(state.lesson);
   show('screen-game-select');
+});
+
+// توقف موسیقی وقتی صفحه پنهان می‌شود (اختیاری، برای صرفه‌جویی باتری)
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && falling.active) {
+    try { if (fallingMusic) fallingMusic.pause(); } catch (e) {}
+  } else if (!document.hidden && falling.active) {
+    try {
+      if (fallingMusic) {
+        const p = fallingMusic.play();
+        if (p && p.catch) p.catch(() => {});
+      }
+    } catch (e) {}
+  }
 });
 
 // ============================================================
